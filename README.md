@@ -10,5 +10,3 @@ Read the code and any instructions before you cut and paste it into your project
 - Copy it to your project. Copy and paste is probably the easiest for most code.
 - Make any changes required to incorporate it into your code.
 - Create some test code to verify it does what you expect.
-
- 

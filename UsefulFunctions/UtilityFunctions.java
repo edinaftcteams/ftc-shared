@@ -41,7 +41,7 @@ public class UtilityFunctions {
      * Scale the joystick input using a nonlinear algorithm.
      * Tweak the array to get the curve you need.
      */
-    public double ScaleMotorLookTable(double joyStickPosition) {
+    public static double ScaleMotorLookTable(double joyStickPosition) {
         //
         // Assume no scaling.
         //
@@ -78,5 +78,20 @@ public class UtilityFunctions {
         return lScale;
 
     } // ScaleMotorLookTable
+	
+	// Function to allow pausing an opmode while running.
+	// Example: 
+	// class someOpMode extends LinearOpMode{
+    // 	ElapsedTime gameTimer = new ElapsedTime();
+    // 	@Override
+    // 	public void RunOpMode(){
+    //     //pause program for 5 seconds
+    //     pauseOpMode(this,gameTimer,5000);
+    // 	}
+	// }
+	public static void pauseOpMode(LinearOpmode op, ElapsedTime et, double waitTime) {
+		double startTime = et.milliseconds();
+		while (op.opModeIsActive() && et.milliseconds() < startTime + waitTime){}
+	}
 
 }
