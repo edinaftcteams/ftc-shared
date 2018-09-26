@@ -1,54 +1,46 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by Ron on 11/16/2016.
+ * Modified: 9/24/2018
  * This class provides configuration for the autonomous opmode.
  */
 
 public class AutonomousConfiguration {
     public AutonomousConfiguration(Gamepad gamepad, Telemetry telemetry1) {
-        this.gamepad1 = gamepad;
+        this.gamePad1 = gamepad;
         this.telemetry = telemetry1;
-        alliance = AllianceColor.None;
         // Default selections if driver does not select any.
-        startPosition = StartPosition.Center;
-        parkLocation = ParkLocation.Ramp;
-        pressBeacon = false;
+        alliance = AllianceColor.None;
+        startPosition = StartPosition.Left;
+        startLatched = false;
+        sampleGold = false;
+        placeTeamMarker = false;
+        stopParked = false;
+        startDelay = 0;
     }
 
     private AllianceColor alliance;
     private StartPosition startPosition;
-    private ParkLocation parkLocation;
-    private boolean pressBeacon;
-    private boolean launchParticle;
-    private Gamepad gamepad1 = null;
-
+    private boolean startLatched;
+    private boolean sampleGold;
+    private boolean placeTeamMarker;
+    private boolean stopParked;
+    private Gamepad gamePad1;
     // Seconds to delay before starting opmode.
-    private int startDelay = 0;
+    private int startDelay;
 
-    // Where do we place the robot
+    // Where do we start the robot
     public enum StartPosition {
-        Center,
-        Left;
+        Left,
+        Right;
 
         public StartPosition getNext() {
-            return values()[(ordinal() + 1) % values().length];
-        }
-
-    }
-
-    // Where do we park
-    public enum ParkLocation {
-        Center,
-        Ramp;
-
-        public ParkLocation getNext() {
             return values()[(ordinal() + 1) % values().length];
         }
     }
@@ -59,106 +51,130 @@ public class AutonomousConfiguration {
         Blue
     }
 
-    private Telemetry telemetry = null;
+    private Telemetry telemetry;
 
-    public int getStartDelay() {
+    public int StartDelay() {
         return startDelay;
     }
 
-    public AllianceColor getAlliance() {
+    public AllianceColor Alliance() {
         return alliance;
     }
 
-    public StartPosition getStartPosition() {
+    public StartPosition StartPosition() {
         return startPosition;
     }
 
-    public ParkLocation getParkLocation() {
-        return parkLocation;
+    public boolean StartLatched() {
+        return startLatched;
     }
 
-    public boolean getPressBeacon() {
-        return pressBeacon;
+    public boolean SampleGold() {
+        return sampleGold;
     }
 
-    public boolean getLaunchParticle() {
-        return launchParticle;
+    public boolean PlaceTeamMarker() {
+        return placeTeamMarker;
+    }
+
+    public boolean StopParked() {
+        return stopParked;
     }
 
     public void ShowMenu() {
-        boolean bCurrStatePadLeft = false;
-        boolean bPrevStatePadLeft = false;
-        boolean bCurrStatePadRight = false;
-        boolean bPrevStatePadRight = false;
+        ElapsedTime runTime = new ElapsedTime();
+        // Use these to control pad press timing.
+        boolean bCurrStateY = false;
+        boolean bPrevStateY = false;
+        boolean bCurrStateA = false;
+        boolean bPrevStateA = false;
 
+        telemetry.setAutoClear(false);
+        Telemetry.Item teleAlliance = telemetry.addData("X = Blue, B = Red", Alliance());
+        Telemetry.Item teleStartDelay = telemetry.addData("X decrease, B increase start delay", StartDelay());
+        Telemetry.Item teleStartPosition = telemetry.addData("D-pad left/right, select start position", StartPosition());
+        Telemetry.Item teleStartLatched = telemetry.addData("D-pad up to cycle start latched", StartLatched());
+        Telemetry.Item teleStopParked = telemetry.addData("D-pad down to cycle stop parked", StopParked());
+        Telemetry.Item teleSampleGold = telemetry.addData("Left Bumper to cycle sample gold", SampleGold());
+        Telemetry.Item telePlaceTeamMarker = telemetry.addData("Right bumper to cycle place team marker", PlaceTeamMarker());
+        telemetry.addData("Finished", "Press game pad Start");
+
+        // Loop while driver makes selections.
         do {
-            if (gamepad1.x) {
+            if (gamePad1.x) {
                 alliance = AllianceColor.Blue;
             }
 
-            if (gamepad1.b) {
+            if (gamePad1.b) {
                 alliance = AllianceColor.Red;
             }
 
-            bCurrStatePadLeft = gamepad1.dpad_left;
-            if ((bCurrStatePadLeft && (bCurrStatePadLeft != bPrevStatePadLeft))
+            teleAlliance.setValue(alliance);
+
+            assert bCurrStateY = gamePad1.y;
+            if ((bCurrStateY && (bCurrStateY != bPrevStateY))
                     && (startDelay > 0)) {
-                startDelay--;
-            }
-
-            bPrevStatePadLeft = bCurrStatePadLeft;
-
-            bCurrStatePadRight = gamepad1.dpad_right;
-            if ((bCurrStatePadRight && (bCurrStatePadRight != bPrevStatePadRight))
-                    && (startDelay < 20)) {
                 startDelay++;
             }
 
-            bPrevStatePadRight = bCurrStatePadRight;
+            bPrevStateY = bCurrStateY;
 
-            if (gamepad1.y) {
-                startPosition = startPosition.getNext();
+            bCurrStateA = gamePad1.a;
+            if ((bCurrStateA && (bCurrStateA != bPrevStateA))
+                    && (startDelay < 20)) {
+                startDelay--;
             }
 
-            if (gamepad1.a) {
-                parkLocation = parkLocation.getNext();
+            bPrevStateA = bCurrStateA;
+            teleStartDelay.setValue(startDelay);
+
+            if (gamePad1.dpad_left) {
+                startPosition = StartPosition.Left;
             }
 
-            if (gamepad1.right_bumper) {
-                pressBeacon = !pressBeacon;
+            if (gamePad1.dpad_right) {
+                startPosition = StartPosition.Right;
             }
 
-            if (gamepad1.left_bumper) {
-                launchParticle = !launchParticle;
+            teleStartPosition.setValue(startPosition);
+
+            if (gamePad1.dpad_up) {
+                startLatched = !startLatched;
             }
 
-            // Only allow loop exit if alliance has been selected.
-            if (gamepad1.start && alliance != AllianceColor.None) {
-                break;
+            teleStartLatched.setValue(startLatched);
+
+            if (gamePad1.dpad_down) {
+                stopParked = !stopParked;
             }
 
-            telemetry.addData("Menu", "x = Blue, b = Red,");
-            telemetry.addData("", "dpad left(decrease), right(increase) start delay");
-            telemetry.addData("", "y to cycle start position");
-            telemetry.addData("", "a to cycle park location");
-            telemetry.addData("", "right bumper to cycle press beacon");
-            telemetry.addData("", "left bumper to cycle launch particle");
-            telemetry.addData("Finished", "Press gamepad Start");
-            telemetry.addData("Selected", "Alliance %s", alliance);
-            telemetry.addData("", "Start delay %d", startDelay);
-            telemetry.addData("", "Start position %s", startPosition);
-            telemetry.addData("", "Park location %s", parkLocation);
-            telemetry.addData("", "Press the beacon %s", pressBeacon);
-            telemetry.addData("", "Launch particle %s", launchParticle);
+            teleStopParked.setValue(stopParked);
+
+            if (gamePad1.left_bumper) {
+                sampleGold = !sampleGold;
+            }
+
+            teleSampleGold.setValue(sampleGold);
+
+            if (gamePad1.right_bumper) {
+                placeTeamMarker = !placeTeamMarker;
+            }
+
+            telePlaceTeamMarker.setValue(placeTeamMarker);
             telemetry.update();
-        } while (true);
-    }
 
-    private void sleep(long milliseconds) {
-        try {
-            Thread.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+            // If there is no gamepad timeout for debugging.
+            if (gamePad1.id == -1) {
+                // The timer is for debugging, remove it when you have a gamepad connected.
+                if (runTime.seconds() > 5) {
+                    break;
+                }
+            } else {
+                // Only allow loop exit if alliance has been selected.
+                if (gamePad1.start && alliance != AllianceColor.None) {
+                    break;
+                }
+            }
+        } while (true);
     }
 }
