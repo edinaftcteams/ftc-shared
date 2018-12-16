@@ -1,4 +1,4 @@
-#Motor Encoder Ticks
+# Motor Encoder Ticks
 
 This one comes up all the time when creating your functions for driving so you can use inches instead of encoder ticks. 
 
