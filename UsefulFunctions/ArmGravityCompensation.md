@@ -1,3 +1,4 @@
+# Arm Gravity Compensation
 The following is from a forum discussion about the issues of rasing and lowering arms using a motor.
 The discussion is here: [https://ftcforum.usfirst.org/forum/ftc-technology/android-studio/67359-motor-speed-control]
 
