@@ -1,6 +1,6 @@
 # PID
 
-This section is a collection of PID information. There is a lot of text and a bit of code, but not a lot of "copy and paste" code. Think of this a the place to learn what PID is and how you might use it.
+This section is a collection of PID information. There is a lot of text and a bit of code, but not a lot of "copy and paste" code. Think of this as a place to learn what PID is and how you might use it.
 
 P = Proportional
 
