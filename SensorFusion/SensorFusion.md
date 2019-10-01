@@ -6,7 +6,7 @@ The gyroscope in the device is far more accurate and has a very short response t
 
 To avoid both, gyro drift and noisy orientation, the gyroscope output is applied only for orientation changes in short time intervals, while the magnetometer/accelerometer data is used as support information over long periods of time. This is equivalent to low-pass filtering of the accelerometer and magnetic field sensor signals and high-pass filtering of the gyroscope signals. The overall sensor fusion and filtering looks like this:
 
-![](F:\Windows Folders\Documents\GitHub\edinaftcteams\ftc-shared\SensorFusion\sensor_fusion - Copy.png)
+![](sensor_fusion - Copy.png)
 
 So what exactly does high-pass and low-pass filtering of the sensor data mean? The sensors provide their data at (more or less) regular time intervals. Their values can be shown as signals in a graph with the time as the x-axis, similar to an audio signal. The low-pass filtering of the noisy accelerometer/magnetometer signal (accMagOrientation in the above figure) are orientation angles averaged over time within a constant time window.
 
@@ -30,6 +30,6 @@ In fact, this is already our finished complementary filter.
 
 Assuming that the device is turned 90° in one direction and after a short time turned back to its initial position, the intermediate signals in the filtering process would look something like this:
 
-![sensor_data](F:\Windows Folders\Documents\GitHub\edinaftcteams\ftc-shared\SensorFusion\sensor_data.png)
+![sensor_data](sensor_data.png)
 
 Notice the gyro drift in the integrated gyroscope signal. It results from the small irregularities in the original angular speed. Those little deviations add up during the integration and cause an additional undesirable slow rotation of the gyroscope based orientation.
