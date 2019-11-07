@@ -6,7 +6,7 @@ P = Proportional
 
 I - Integral
 
-D - Derivatve
+D - Derivative
 
 Some FTC applications for PID controllers:
 
