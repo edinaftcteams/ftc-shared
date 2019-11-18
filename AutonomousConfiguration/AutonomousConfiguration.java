@@ -7,43 +7,45 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by Ron on 11/16/2016.
- * Modified: 9/24/2018
- * This class provides configuration for the autonomous opmode.
+ * Modified: 11/18/2019
+ * <p>
+ * This class provides configuration for an autonomous opMode.
+ * Most games benefit from autonomous opModes that can implement
+ * different behavior based on an alliance strategy agreed upon
+ * for a specific match.
+ * </p>
+ * <p>
+ * Creating multiple opModes to meet this requirement results in duplicate
+ * code and an environment that makes it too easy for a driver to
+ * choose the wrong opMode "in the heat of battle."
+ * </p>
+ * <p>
+ *     This class is a way to solve these problems.
+ * </p>
  */
 
 public class AutonomousConfiguration {
+    /*
+     Pass in gamepad and telemetry from your opMode when creating this object.
+     */
     public AutonomousConfiguration(Gamepad gamepad, Telemetry telemetry1) {
         this.gamePad1 = gamepad;
         this.telemetry = telemetry1;
-        // Default selections if driver does not select any.
+        // Default selections if driver does not select anything.
         alliance = AllianceColor.None;
-        startPosition = StartPosition.Left;
-        startLatched = false;
-        sampleGold = false;
-        placeTeamMarker = false;
-        stopParked = false;
-        startDelay = 0;
+        startPosition = StartPosition.None;
+        navigationLane = NavigationLane.None;
+        reposition = Reposition.None;
+        deliver = Deliver.None;
     }
 
     private AllianceColor alliance;
     private StartPosition startPosition;
-    private boolean startLatched;
-    private boolean sampleGold;
-    private boolean placeTeamMarker;
-    private boolean stopParked;
+    private NavigationLane navigationLane;
+    private Deliver deliver;
+    private Reposition reposition;
     private Gamepad gamePad1;
-    // Seconds to delay before starting opmode.
-    private int startDelay;
-
-    // Where do we start the robot
-    public enum StartPosition {
-        Left,
-        Right;
-
-        public StartPosition getNext() {
-            return values()[(ordinal() + 1) % values().length];
-        }
-    }
+    private Telemetry telemetry;
 
     public enum AllianceColor {
         None,
@@ -51,52 +53,89 @@ public class AutonomousConfiguration {
         Blue
     }
 
-    private Telemetry telemetry;
+    // Where do we start the robot
+    public enum StartPosition {
+        None,
+        BuildingZone,
+        LoadingZone;
 
-    public int StartDelay() {
-        return startDelay;
+        public StartPosition getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        }
     }
 
-    public AllianceColor Alliance() {
+    /*
+        OutSide is the lane next to the wall.
+        InSide is the lane closest to the neutral sky bridge.
+    */
+    public enum NavigationLane {
+        None,
+        Inside,
+        OutSide;
+
+        public NavigationLane getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        }
+    }
+
+    /*
+        Deliver means get the stone under the sky bridge.
+        DeliverAndPlace means get the stone under the sky bridge
+        and place it on the foundation.
+     */
+    public enum Deliver {
+        None,
+        Deliver,
+        DeliverAndPlace;
+
+        public Deliver getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        }
+    }
+
+    /*
+        Reposition the foundation. Additional values could be added if your
+        robot can reposition in different locations. For example rotating the
+        foundation 90 degrees.
+     */
+    public enum Reposition {
+        None,
+        Reposition;
+
+        public Reposition getNext() {
+            return values()[(ordinal() + 1) % values().length];
+        }
+    }
+
+    public AllianceColor getAlliance() {
         return alliance;
     }
 
-    public StartPosition StartPosition() {
+    public StartPosition getStartPosition() {
         return startPosition;
     }
 
-    public boolean StartLatched() {
-        return startLatched;
+    public NavigationLane getNavigationLane() {
+        return navigationLane;
     }
 
-    public boolean SampleGold() {
-        return sampleGold;
+    public Deliver getDeliver() {
+        return deliver;
     }
 
-    public boolean PlaceTeamMarker() {
-        return placeTeamMarker;
+    public Reposition getReposition() {
+        return reposition;
     }
 
-    public boolean StopParked() {
-        return stopParked;
-    }
-
+    // Call this from your opMode to show the menu for selection.
     public void ShowMenu() {
         ElapsedTime runTime = new ElapsedTime();
-        // Use these to control pad press timing.
-        boolean bCurrStateY = false;
-        boolean bPrevStateY = false;
-        boolean bCurrStateA = false;
-        boolean bPrevStateA = false;
-
         telemetry.setAutoClear(false);
-        Telemetry.Item teleAlliance = telemetry.addData("X = Blue, B = Red", Alliance());
-        Telemetry.Item teleStartDelay = telemetry.addData("X decrease, B increase start delay", StartDelay());
-        Telemetry.Item teleStartPosition = telemetry.addData("D-pad left/right, select start position", StartPosition());
-        Telemetry.Item teleStartLatched = telemetry.addData("D-pad up to cycle start latched", StartLatched());
-        Telemetry.Item teleStopParked = telemetry.addData("D-pad down to cycle stop parked", StopParked());
-        Telemetry.Item teleSampleGold = telemetry.addData("Left Bumper to cycle sample gold", SampleGold());
-        Telemetry.Item telePlaceTeamMarker = telemetry.addData("Right bumper to cycle place team marker", PlaceTeamMarker());
+        Telemetry.Item teleAlliance = telemetry.addData("X = Blue, B = Red", getAlliance());
+        Telemetry.Item teleStartPosition = telemetry.addData("D-pad left/right, select start position", getStartPosition());
+        Telemetry.Item teleNavigationLane = telemetry.addData("D-pad up to cycle navigation lane", getNavigationLane());
+        Telemetry.Item teleDeliver = telemetry.addData("D-pad down to cycle deliver", getDeliver());
+        Telemetry.Item teleReposition = telemetry.addData("Left Bumper to cycle reposition", getReposition());
         telemetry.addData("Finished", "Press game pad Start");
 
         // Loop while driver makes selections.
@@ -111,56 +150,34 @@ public class AutonomousConfiguration {
 
             teleAlliance.setValue(alliance);
 
-            assert bCurrStateY = gamePad1.y;
-            if ((bCurrStateY && (bCurrStateY != bPrevStateY))
-                    && (startDelay > 0)) {
-                startDelay++;
-            }
-
-            bPrevStateY = bCurrStateY;
-
-            bCurrStateA = gamePad1.a;
-            if ((bCurrStateA && (bCurrStateA != bPrevStateA))
-                    && (startDelay < 20)) {
-                startDelay--;
-            }
-
-            bPrevStateA = bCurrStateA;
-            teleStartDelay.setValue(startDelay);
-
             if (gamePad1.dpad_left) {
-                startPosition = StartPosition.Left;
+                startPosition = StartPosition.LoadingZone;
             }
 
             if (gamePad1.dpad_right) {
-                startPosition = StartPosition.Right;
+                startPosition = StartPosition.LoadingZone;
             }
 
             teleStartPosition.setValue(startPosition);
 
             if (gamePad1.dpad_up) {
-                startLatched = !startLatched;
+                navigationLane = navigationLane.getNext();
             }
 
-            teleStartLatched.setValue(startLatched);
+            teleNavigationLane.setValue(navigationLane);
 
             if (gamePad1.dpad_down) {
-                stopParked = !stopParked;
+                deliver = deliver.getNext();
             }
 
-            teleStopParked.setValue(stopParked);
+            teleDeliver.setValue(deliver);
 
             if (gamePad1.left_bumper) {
-                sampleGold = !sampleGold;
+                reposition = reposition.getNext();
             }
 
-            teleSampleGold.setValue(sampleGold);
+            teleReposition.setValue(reposition);
 
-            if (gamePad1.right_bumper) {
-                placeTeamMarker = !placeTeamMarker;
-            }
-
-            telePlaceTeamMarker.setValue(placeTeamMarker);
             telemetry.update();
 
             // If there is no gamepad timeout for debugging.

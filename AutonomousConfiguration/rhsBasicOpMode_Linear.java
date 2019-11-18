@@ -37,20 +37,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- * <p>
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- * <p>
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+/*
+    This is a basic linear opMode example for testing the AutonomousConfiguration class.
+    The AutonomousConfiguration class can also be used with an iterative opMode.
  */
-
 @Autonomous(name = "Menu Test", group = "Linear")
 //@Disabled
 public class rhsBasicOpMode_Linear extends LinearOpMode {
@@ -59,44 +49,22 @@ public class rhsBasicOpMode_Linear extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
+    // This the configuration class used to get the driver's selections.
     private AutonomousConfiguration autoConfig;
     // The properties are available after the
     // call to the ShowMenu method of the AutonomousConfiguration class.
     private AutonomousConfiguration.AllianceColor alliance;
     private AutonomousConfiguration.StartPosition startPosition;
-    private boolean startLatched;
-    private boolean sampleGold;
-    private boolean placeTeamMarker;
-    private boolean stopParked;
-    private int startDelay = 0;
+    private AutonomousConfiguration.NavigationLane navigationLane;
+    private AutonomousConfiguration.Deliver deliver;
+    private AutonomousConfiguration.Reposition reposition;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        // Get configuration selections from the driver.
-        autoConfig = new AutonomousConfiguration(gamepad1, telemetry);
-        autoConfig.ShowMenu();
-
-        // Save the driver selections for use in the autonomous strategy.
-        alliance = autoConfig.Alliance();
-        startPosition = autoConfig.StartPosition();
-        startLatched = autoConfig.StartLatched();
-        sampleGold = autoConfig.SampleGold();
-        placeTeamMarker = autoConfig.PlaceTeamMarker();
-        stopParked = autoConfig.StopParked();
-        startDelay = autoConfig.StartDelay();
-
-        telemetry.clear();
-        telemetry.addData("Alliance", alliance);
-        telemetry.addData("Start position", startPosition);
-        telemetry.addData("Start latched", startLatched);
-        telemetry.addData("Sample gold", sampleGold);
-        telemetry.addData("Place team marker", placeTeamMarker);
-        telemetry.addData("Stop parked", stopParked);
-        telemetry.addData("Start delay", startDelay);
-        telemetry.update();
+        GetAutonomousConfigurationOptions();
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -104,6 +72,32 @@ public class rhsBasicOpMode_Linear extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Path", "Driving Autonomous");
             telemetry.update();
+            /*
+             Put your autonomous path code here using the configuration
+             options from the menu selection to control the logic.
+             */
         }
+    }
+
+    public void GetAutonomousConfigurationOptions()
+    {
+        // Get configuration selections from the driver using gamepad1.
+        autoConfig = new AutonomousConfiguration(gamepad1, telemetry);
+        autoConfig.ShowMenu();
+
+        // Save the driver selections for use in your autonomous strategy.
+        alliance = autoConfig.getAlliance();
+        startPosition = autoConfig.getStartPosition();
+        navigationLane = autoConfig.getNavigationLane();
+        deliver = autoConfig.getDeliver();
+        reposition = autoConfig.getReposition();
+
+        telemetry.clear();
+        telemetry.addData("Alliance", alliance);
+        telemetry.addData("Start position", startPosition);
+        telemetry.addData("Navigation Lane", navigationLane);
+        telemetry.addData("Deliver", deliver);
+        telemetry.addData("Reposition", reposition);
+        telemetry.update();
     }
 }
