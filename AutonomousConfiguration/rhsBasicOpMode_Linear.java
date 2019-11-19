@@ -72,15 +72,120 @@ public class rhsBasicOpMode_Linear extends LinearOpMode {
         while (opModeIsActive()) {
             telemetry.addData("Path", "Driving Autonomous");
             telemetry.update();
+
             /*
-             Put your autonomous path code here using the configuration
+             Replace this sample code with your path code using the configuration
              options from the menu selection to control the logic.
              */
+            if (startPosition == AutonomousConfiguration.StartPosition.BuildingZone) {
+                Navigate();
+            }
+
+            if (startPosition == AutonomousConfiguration.StartPosition.LoadingZone) {
+                Reposition();
+            }
+
         }
     }
 
-    public void GetAutonomousConfigurationOptions()
-    {
+    private void Navigate() {
+        double leftPower;
+        double rightPower;
+        double runSeconds;
+
+        // Move away from wall
+        leftPower = .3;
+        rightPower = .3;
+        runSeconds = navigationLane == AutonomousConfiguration.NavigationLane.Inside ? 1 : 2.5;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Turn 90 degrees
+        if (alliance == AutonomousConfiguration.AllianceColor.Red) {
+            rightPower = 0;
+        } else {
+            leftPower = 0;
+        }
+
+        runSeconds = 1;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Drive under sky bridge
+        leftPower = .3;
+        rightPower = .3;
+        runSeconds = 3.5;
+        RunMotors(leftPower, rightPower, runSeconds);
+    }
+
+    private void Reposition() {
+        double leftPower;
+        double rightPower;
+        double runSeconds;
+
+        // Move away from wall
+        leftPower = .3;
+        rightPower = .3;
+        runSeconds = 1;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Turn 90 degrees
+        if (alliance == AutonomousConfiguration.AllianceColor.Red) {
+            rightPower = 0;
+        } else {
+            leftPower = 0;
+        }
+
+        runSeconds = 1;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Drive towards foundation
+        leftPower = .3;
+        rightPower = .3;
+        runSeconds = 4;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Turn 90 degrees towards foundation
+        if (alliance == AutonomousConfiguration.AllianceColor.Red) {
+            leftPower = 0;
+        } else {
+            rightPower = 0;
+        }
+
+        runSeconds = 1;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Drive to foundation
+        leftPower = .3;
+        rightPower = .3;
+        runSeconds = 2.5;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Drop your dragging device here.
+        // Drag to the building site
+        leftPower = -.3;
+        rightPower = -.3;
+        runSeconds = 3.5;
+        RunMotors(leftPower, rightPower, runSeconds);
+
+        // Straf back to the sky bridge if you have mecanum wheels!
+    }
+
+    private void RunMotors(double leftPower, double rightPower, double runSeconds) {
+        runtime.reset();
+        leftDrive.setPower(leftPower);
+        rightDrive.setPower(rightPower);
+        while (runtime.seconds() < runSeconds) {
+            sleep(10);
+        }
+
+        StopMotors();
+    }
+
+    private void StopMotors() {
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
+    }
+
+    private void GetAutonomousConfigurationOptions() {
         // Get configuration selections from the driver using gamepad1.
         autoConfig = new AutonomousConfiguration(gamepad1, telemetry);
         autoConfig.ShowMenu();
