@@ -10,12 +10,13 @@ This class is designed to provide a way for teams to configure autonomous opmode
 This configuration class can be modified to meet the requirements of your team and robot.
 
 The "quick-and-dirty" way to manage these options is to create a bunch of different autonomous opmodes using *creative* names to identify their capabilities. 
-With the 5 configuration options in this sample class you would need 72 different opmodes to cover all your possible options.
+With the 5 configuration options in this sample class you would need at least 48 different opmodes depending on how you define your options.
 
-2 big problems with that strategy:
+*Two big problems with that strategy*:
+
 1. Can the driver reliably pick the correct opmode from the list on the phone in a dark gym with hundreds of cheering fans and extremely loud music blasting from the PA system?
-2. When you make a change in your code can you be sure not to make a mistake when adding the change to the rest of your autonomous opmodes? 
+2. When you make a change in your code can you be sure not to make a mistake when adding the change to all of the autonomous opmodes? 
 
 ## Code
-- AutonomousConfiguration.java - This is the configuration class. Please change it to meet your requirements.
-- rhsPushbotAutoDriveByEncoder_Linear.java - This is a sample opmode that uses the configuration class.
+- AutonomousConfiguration.java - This is the configuration class. Add this to your team code folder and change it to meet your requirements.
+- rhsPushbotAutoDriveByEncoder_Linear.java - This is a basic opmode that uses the configuration class.
