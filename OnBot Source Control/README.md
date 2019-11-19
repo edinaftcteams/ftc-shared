@@ -8,4 +8,5 @@ There are a couple of ways to get your OnBot code off the phone and stored somew
 - Right click on the OnBot file and a download button will appear. Download to your laptop.
 - Use the utility from here [TheLostLambda](https://github.com/TheLostLambda/ftc_http/releases) to copy files both ways.
 - Read this link [OnBot Source Control](https://ftcforum.usfirst.org/forum/ftc-technology/65266-onbot-java-and-source-control) to use OnBot and Android Studio together. This provides a way to change and debug code without plugging the phone into your laptop!
-Once you have the files on your laptop, they can be added to your local GitHub repository and pushed to GitHub just like using Android Studio or GitHub Desktop.
+
+Once you have the files on your laptop, they can be added to your local GitHub repository and pushed to GitHub using GitHub Desktop.
