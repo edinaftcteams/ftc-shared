@@ -54,10 +54,12 @@ public class AutonomousConfiguration {
     }
 
     // Where do we start the robot
+    // Back is towards the warehouse.
+    // Front if towards the audience.
     public enum StartPosition {
         None,
-        BuildingZone,
-        LoadingZone;
+        Back,
+        Front;
 
         public StartPosition getNext() {
             return values()[(ordinal() + 1) % values().length];
@@ -151,11 +153,11 @@ public class AutonomousConfiguration {
             teleAlliance.setValue(alliance);
 
             if (gamePad1.dpad_left) {
-                startPosition = StartPosition.LoadingZone;
+                startPosition = StartPosition.Back;
             }
 
             if (gamePad1.dpad_right) {
-                startPosition = StartPosition.LoadingZone;
+                startPosition = StartPosition.Front;
             }
 
             teleStartPosition.setValue(startPosition);

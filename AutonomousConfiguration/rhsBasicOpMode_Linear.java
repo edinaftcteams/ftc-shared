@@ -30,12 +30,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 /*
     This is a basic linear opMode example for testing the AutonomousConfiguration class.
@@ -77,11 +74,11 @@ public class rhsBasicOpMode_Linear extends LinearOpMode {
              Replace this sample code with your path code using the configuration
              options from the menu selection to control the logic.
              */
-            if (startPosition == AutonomousConfiguration.StartPosition.BuildingZone) {
+            if (startPosition == AutonomousConfiguration.StartPosition.Back) {
                 Navigate();
             }
 
-            if (startPosition == AutonomousConfiguration.StartPosition.LoadingZone) {
+            if (startPosition == AutonomousConfiguration.StartPosition.Front) {
                 Reposition();
             }
 
