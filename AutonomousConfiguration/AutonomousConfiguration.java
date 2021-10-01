@@ -7,7 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by Ron on 11/16/2016.
- * Modified: 11/18/2019
+ * Modified: 10/1/2021
  * <p>
  * This class provides configuration for an autonomous opMode.
  * Most games benefit from autonomous opModes that can implement
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * choose the wrong opMode "in the heat of battle."
  * </p>
  * <p>
- *     This class is a way to solve these problems.
+ * This class is a way to solve these problems.
  * </p>
  */
 
@@ -34,16 +34,16 @@ public class AutonomousConfiguration {
         // Default selections if driver does not select anything.
         alliance = AllianceColor.None;
         startPosition = StartPosition.None;
-        navigationLane = NavigationLane.None;
-        reposition = Reposition.None;
-        deliver = Deliver.None;
+        parklocation = ParkLocation.None;
+        deliverFreight = DeliverFreight.No;
+        deliverDuck = DeliverDuck.No;
     }
 
     private AllianceColor alliance;
     private StartPosition startPosition;
-    private NavigationLane navigationLane;
-    private Deliver deliver;
-    private Reposition reposition;
+    private ParkLocation parklocation;
+    private DeliverDuck deliverDuck;
+    private DeliverFreight deliverFreight;
     private Gamepad gamePad1;
     private Telemetry telemetry;
 
@@ -53,9 +53,11 @@ public class AutonomousConfiguration {
         Blue
     }
 
-    // Where do we start the robot
-    // Back is towards the warehouse.
-    // Front if towards the audience.
+    /*
+        Where do we start the robot
+        Back is towards the warehouse.
+        Front if towards the audience.
+     */
     public enum StartPosition {
         None,
         Back,
@@ -67,44 +69,41 @@ public class AutonomousConfiguration {
     }
 
     /*
-        OutSide is the lane next to the wall.
-        InSide is the lane closest to the neutral sky bridge.
-    */
-    public enum NavigationLane {
+        Where do we park. Default is do not park.
+     */
+    public enum ParkLocation {
         None,
-        Inside,
-        OutSide;
+        WarehouseFront,
+        WarehouseBack,
+        StorageUnit;
 
-        public NavigationLane getNext() {
+        public ParkLocation getNext() {
             return values()[(ordinal() + 1) % values().length];
         }
     }
 
     /*
-        Deliver means get the stone under the sky bridge.
-        DeliverAndPlace means get the stone under the sky bridge
-        and place it on the foundation.
+        Yes means deliver the duck from the carousel.
+        Default is No.
      */
-    public enum Deliver {
-        None,
-        Deliver,
-        DeliverAndPlace;
+    public enum DeliverDuck {
+        No,
+        Yes;
 
-        public Deliver getNext() {
+        public DeliverDuck getNext() {
             return values()[(ordinal() + 1) % values().length];
         }
     }
 
     /*
-        Reposition the foundation. Additional values could be added if your
-        robot can reposition in different locations. For example rotating the
-        foundation 90 degrees.
+        Yes means deliver freight to the shipping hub.
+        Default is No.
      */
-    public enum Reposition {
-        None,
-        Reposition;
+    public enum DeliverFreight {
+        No,
+        Yes;
 
-        public Reposition getNext() {
+        public DeliverFreight getNext() {
             return values()[(ordinal() + 1) % values().length];
         }
     }
@@ -117,16 +116,16 @@ public class AutonomousConfiguration {
         return startPosition;
     }
 
-    public NavigationLane getNavigationLane() {
-        return navigationLane;
+    public ParkLocation getParklocation() {
+        return parklocation;
     }
 
-    public Deliver getDeliver() {
-        return deliver;
+    public DeliverDuck getDeliverDuck() {
+        return deliverDuck;
     }
 
-    public Reposition getReposition() {
-        return reposition;
+    public DeliverFreight getDeliverFreight() {
+        return deliverFreight;
     }
 
     // Call this from your opMode to show the menu for selection.
@@ -135,9 +134,9 @@ public class AutonomousConfiguration {
         telemetry.setAutoClear(false);
         Telemetry.Item teleAlliance = telemetry.addData("X = Blue, B = Red", getAlliance());
         Telemetry.Item teleStartPosition = telemetry.addData("D-pad left/right, select start position", getStartPosition());
-        Telemetry.Item teleNavigationLane = telemetry.addData("D-pad up to cycle navigation lane", getNavigationLane());
-        Telemetry.Item teleDeliver = telemetry.addData("D-pad down to cycle deliver", getDeliver());
-        Telemetry.Item teleReposition = telemetry.addData("Left Bumper to cycle reposition", getReposition());
+        Telemetry.Item teleParkLocation = telemetry.addData("D-pad up to cycle park location", getParklocation());
+        Telemetry.Item teleDeliverduck = telemetry.addData("D-pad down to cycle deliver duck", getDeliverDuck());
+        Telemetry.Item teleDeliverFreight = telemetry.addData("Left Bumper to cycle deliver freight", getDeliverFreight());
         telemetry.addData("Finished", "Press game pad Start");
 
         // Loop while driver makes selections.
@@ -163,29 +162,29 @@ public class AutonomousConfiguration {
             teleStartPosition.setValue(startPosition);
 
             if (gamePad1.dpad_up) {
-                navigationLane = navigationLane.getNext();
+                parklocation = parklocation.getNext();
             }
 
-            teleNavigationLane.setValue(navigationLane);
+            teleParkLocation.setValue(parklocation);
 
             if (gamePad1.dpad_down) {
-                deliver = deliver.getNext();
+                deliverDuck = deliverDuck.getNext();
             }
 
-            teleDeliver.setValue(deliver);
+            teleDeliverduck.setValue(deliverDuck);
 
             if (gamePad1.left_bumper) {
-                reposition = reposition.getNext();
+                deliverFreight = deliverFreight.getNext();
             }
 
-            teleReposition.setValue(reposition);
+            teleDeliverFreight.setValue(deliverFreight);
 
             telemetry.update();
 
             // If there is no gamepad timeout for debugging.
             if (gamePad1.id == -1) {
                 // The timer is for debugging, remove it when you have a gamepad connected.
-                if (runTime.seconds() > 5) {
+                if (runTime.seconds() > 3) {
                     break;
                 }
             } else {
