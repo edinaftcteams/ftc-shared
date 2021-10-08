@@ -9,8 +9,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by Ron on 11/19/2019.
+ * Updated by Ron on 10/08/2021.
  * Autonomous using gyro for navigation.
+ * ! This is slowly being updated to Freight Frenzy
+ * and the new Drive and Robot Hubs.
+ * ! Until it is up to date the concepts of using the
+ * gyro and the state machine are still applicable.
  */
 //------------------------------------------------------------------------------
 // Extends the OpMode class to provide Autonomous code

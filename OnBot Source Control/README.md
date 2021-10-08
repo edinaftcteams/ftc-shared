@@ -5,7 +5,7 @@ The information included here came from other FTC teams that solved the problem 
 
 There are a couple of ways to get your OnBot code off the phone and stored somewhere else.
 - Copy and Paste the code from the OnBot browser window to your laptop.
-- Right click on the OnBot file and a download button will appear. Download to your laptop.
-- Use the utility from here [TheLostLambda](https://github.com/TheLostLambda/ftc_http/releases) to copy files both ways.
+- Use the Download button from the onBot menu to download to your laptop.
 
 Once you have the files on your laptop, they can be added to your local GitHub repository and pushed to GitHub using GitHub Desktop.
+
