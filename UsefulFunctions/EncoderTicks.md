@@ -3,6 +3,13 @@
 This one comes up all the time when creating your functions for driving so you can use inches instead of encoder ticks. 
 
 Looking up the motor encoder specs should give you the counts per revolution for your motors. And in theory you can combine this number with your gear reduction and wheel size to predict how many counts per inch you will get (this is a great constant value to use in your program....)
+You can also get this value in code if your robot configuration has the correct motor defined.
+
+```
+double COUNTS_PER_MOTOR_REV;
+
+    COUNTS_PER_MOTOR_REV = motorLeft.getMotorType().getTicksPerRev();
+```
 
 But.... after having done this calculation, you should then verify the number with some experimentation (which can also help if you don't have motor specs).
 
