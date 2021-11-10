@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.util.Range;
 
 /**
- * Created by Ron on 10/31/2016.
- * Collection of functions for use in any opmode.
+ * Edited by Ron on 11/10/2021.
+ * Collection of functions for use in any opMode.
  */
 public class UtilityFunctions {
     public UtilityFunctions() {
@@ -76,8 +76,7 @@ public class UtilityFunctions {
         }
 
         return lScale;
-
-    } // ScaleMotorLookTable
+    }
 	
 	// Function to allow pausing an opmode while running.
 	// Example: 
@@ -93,5 +92,4 @@ public class UtilityFunctions {
 		double startTime = et.milliseconds();
 		while (op.opModeIsActive() && et.milliseconds() < startTime + waitTime){}
 	}
-
 }
