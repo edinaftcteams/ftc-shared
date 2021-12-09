@@ -12,7 +12,7 @@ So what exactly does high-pass and low-pass filtering of the sensor data mean? T
 
 Later in the implementation, this is accomplished by slowly introducing new values from the accelerometer/magnetometer to the absolute orientation:
 
-```
+```java
 // low-pass filtering: every time a new sensor value is available
 // is weighted with a factor and added to the absolute orientation
 accMagOrientation = (1 - factor) * accMagOrientation + factor * newAccMagValue;
@@ -20,7 +20,7 @@ accMagOrientation = (1 - factor) * accMagOrientation + factor * newAccMagValue;
 
 The high-pass filtering of the integrated gyroscope data is done by replacing the filtered high-frequency component from accMagOrientation with the corresponding gyroscope orientation values:
 
-```
+```java
 fusedOrientation =
     (1 - factor) * newGyroValue;    // high-frequency component
     + factor * newAccMagValue;      // low-frequency component
