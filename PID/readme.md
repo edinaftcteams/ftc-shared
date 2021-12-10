@@ -1,4 +1,4 @@
-# PID
+# Proportional Integral Derivative
 
 This section is a collection of PID information. There is a lot of text and a bit of code, but not a lot of "copy and paste" code. Think of this as a place to learn what PID is and how you might use it.
 
@@ -23,3 +23,5 @@ Here are some links for more reading pleasure:
 
 * [Beginners PID](http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/) - This one is for Arduino, but the concepts translate to any language.
 * [Forum Discussion](https://ftcforum.usfirst.org/forum/ftc-technology/4019-high-accuracy-pid-controller-in-android) - Some "techie" information on PID's in FTC.
+
+* [Game Manual 0](https://gm0.org/en/stable/docs/software/control-loops.html) - More PID explanations and application to FTC.

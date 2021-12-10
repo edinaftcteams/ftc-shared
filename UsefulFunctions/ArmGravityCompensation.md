@@ -1,4 +1,5 @@
 # Arm Gravity Compensation
+
 The following is from a forum discussion about the issues of raising and lowering arms using a motor.
 The forum discussion is no longer there (it was a couple of years back.)
 

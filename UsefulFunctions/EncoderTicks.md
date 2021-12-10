@@ -17,16 +17,12 @@ Write an opmode to repeatedly call myMotor.getCurrentPosition() and display it a
 
 Set up a test where you can compare counts with inches. There a LOTS of ways to do this (it's easier if you reset the encoders before each test, but it's not required.)
 
-You can:
+You can do one of the following:
 
-1. Manually rotate the wheel 10 times. Take the difference between the starting and ending encoder value. Divide the change in encoder value by (10 * D * PI).
-
-or
+1. Manually rotate the wheel 10 times. Take the difference between the starting and ending encoder value. Divide the change in encoder value by:$$(10*D*Pi)$$
 
 2. Change the program to drive for 10 seconds and then stop. Take the difference between the starting and ending encoder value. Divide by the distance traveled.
 
-or
-
 3. Reset the encoder and then drive to 10,000 encoder counts and stop. Divide 10,000 by the distance traveled.
 
-In all cases drive the motors slowly so you don't get slippage, and use a long time or distance to improve your accuracy. 
+In all cases drive the motors slowly so you don't get slippage, and use a long time or distance to improve your accuracy.

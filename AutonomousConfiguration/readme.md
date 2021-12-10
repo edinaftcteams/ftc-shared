@@ -1,6 +1,9 @@
 # Autonomous Configuration
+
 This class is designed to provide a way for teams to configure autonomous opmodes to perform tasks differently based on information that is learned just before starting a match in competition.
+
 ## Some examples:
+
 - Change your navigation path based on your alliance color.
 - Select the starting location of you robot.
 - Select whether your robot will reposition the foundation.
@@ -18,5 +21,6 @@ With the 5 configuration options in this sample class you would need at least 48
 2. When you make a change in your code can you be sure not to make a mistake when adding the change to all of the autonomous opmodes? 
 
 ## Code
+
 - AutonomousConfiguration.java - This is the configuration class. Add this to your team code folder and change it to meet your requirements.
 - rhsPushbotAutoDriveByEncoder_Linear.java - This is a basic opmode that uses the configuration class.
