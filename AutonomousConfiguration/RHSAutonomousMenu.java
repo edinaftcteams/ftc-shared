@@ -44,15 +44,19 @@ import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
  * class is instantiated on the Robot Controller and executed.
  */
 
-@Autonomous(name = "Example: Auto Config Menu", group = "Example")
+@Autonomous(name = "Auto Config Menu", group = "concept", preselectTeleOp = "Vuforia: Drive To Target")
 //@Disabled
-public class AutoConfigMenu extends OpMode {
+public class RHSAutonomousMenu extends OpMode {
+    static final double FORWARD_SPEED = 0.6;
+    static final double TURN_SPEED = 0.5;
+    private final DcMotor leftDrive = null;
+    private final DcMotor rightDrive = null;
     // Declare OpMode members.
     HardwarePushbot robot = new HardwarePushbot();   // Use a Pushbot's hardware
-    private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
     // Setup a variable for each drive wheel to save power level for telemetry
     double leftPower = 0;
     double rightPower = 0;
+    private ElapsedTime runtime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);
     private AutonomousConfiguration autoConfig;
     private boolean optionsSelected = false;
     private AutonomousConfiguration.AllianceColor alliance;
@@ -60,25 +64,10 @@ public class AutoConfigMenu extends OpMode {
     private AutonomousConfiguration.ParkLocation parkLocation;
     private AutonomousConfiguration.DeliverDuck deliverDuck;
     private AutonomousConfiguration.DeliverFreight deliverFreight;
-    private final DcMotor leftDrive = null;
-    private final DcMotor rightDrive = null;
-
-    // States for navigation.
-    private enum State {
-        STATE_INITIAL,
-        STATE_DRIVE_FORWARD,
-        STATE_TURN_90,
-        STATE_DRIVE_TO_WALL,
-        STATE_BACKUP,
-        STATE_STOP
-    }
-
+    private int delayStartSeconds;
     // Loop cycle time stats variables
     private ElapsedTime mStateTime = new ElapsedTime(ElapsedTime.Resolution.SECONDS);  // Time into current state
     private State mCurrentState;    // Current State Machine State.
-
-    static final double FORWARD_SPEED = 0.6;
-    static final double TURN_SPEED = 0.5;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -131,8 +120,10 @@ public class AutoConfigMenu extends OpMode {
     public void loop() {
         switch (mCurrentState) {
             case STATE_INITIAL:
-                newState(State.STATE_DRIVE_FORWARD);
-                runtime.reset();
+                if (runtime.seconds() >= delayStartSeconds) {
+                    newState(State.STATE_DRIVE_FORWARD);
+                    runtime.reset();
+                }
                 break;
 
             // Step 1:  Drive forward.
@@ -214,6 +205,7 @@ public class AutoConfigMenu extends OpMode {
         parkLocation = autoConfig.getParklocation();
         deliverDuck = autoConfig.getDeliverDuck();
         deliverFreight = autoConfig.getDeliverFreight();
+        delayStartSeconds = autoConfig.DelayStartSeconds();
 
         telemetry.clear();
         telemetry.addData("Alliance", alliance);
@@ -221,6 +213,7 @@ public class AutoConfigMenu extends OpMode {
         telemetry.addData("Park Location", parkLocation);
         telemetry.addData("Deliver Duck", deliverDuck);
         telemetry.addData("Deliver Freight", deliverFreight);
+        telemetry.addData("Delay Start", delayStartSeconds);
         telemetry.update();
     }
 
@@ -243,7 +236,37 @@ public class AutoConfigMenu extends OpMode {
         mCurrentState = newState;
     }
 
-    private void ParkInAllianceStorage() {
+    private boolean ParkInStorage() {
 
+        return false;
+    }
+
+    private boolean ParkInWarehouse() {
+
+        return false;
+    }
+
+    private boolean DeliverDuck() {
+
+        return false;
+    }
+
+    private boolean DeliverFreight() {
+
+        return false;
+    }
+
+    // States for navigation.
+    private enum State {
+        STATE_INITIAL,
+        STATE_PARK_IN_STORAGE,
+        STATE_PARK_IN_WAREHOUSE,
+        STATE_DELIVER_DUCK,
+        STATE_DELIVER_FREIGHT,
+        STATE_DRIVE_FORWARD,
+        STATE_TURN_90,
+        STATE_DRIVE_TO_WALL,
+        STATE_BACKUP,
+        STATE_STOP
     }
 }

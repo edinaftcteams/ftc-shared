@@ -29,6 +29,7 @@ public class AutonomousConfiguration {
     private ParkLocation parklocation;
     private DeliverDuck deliverDuck;
     private DeliverFreight deliverFreight;
+    private int delayStartSeconds;
     private NinjaGamePad gamePad1;
     private Telemetry telemetry;
     private Telemetry.Item teleAlliance;
@@ -36,6 +37,7 @@ public class AutonomousConfiguration {
     private Telemetry.Item teleParkLocation;
     private Telemetry.Item teleDeliverDuck;
     private Telemetry.Item teleDeliverFreight;
+    private Telemetry.Item teleDelayStartSeconds;
     private DebouncedButton aButton;
     private DebouncedButton bButton;
     private DebouncedButton dPadLeft;
@@ -61,7 +63,7 @@ public class AutonomousConfiguration {
         dPadRight = gamePad1.getDpadRight().debounced();
         dPadDown = gamePad1.getDpadDown().debounced();
         dPadUp = gamePad1.getDpadUp().debounced();
-        rightBumper = gamePad1.getDpadUp().debounced();
+        rightBumper = gamePad1.getRightBumper().debounced();
         leftBumper = gamePad1.getLeftBumper().debounced();
         xButton = gamePad1.getXButton().debounced();
         yButton = gamePad1.getYButton().debounced();
@@ -75,6 +77,7 @@ public class AutonomousConfiguration {
         parklocation = ParkLocation.None;
         deliverFreight = DeliverFreight.No;
         deliverDuck = DeliverDuck.No;
+        delayStartSeconds = 0;
         ShowHelp();
     }
 
@@ -98,12 +101,17 @@ public class AutonomousConfiguration {
         return deliverFreight;
     }
 
+    public int DelayStartSeconds() {
+        return delayStartSeconds;
+    }
+
     private void ShowHelp() {
+        teleAlliance = telemetry.addData("X = Blue, B = Red", getAlliance());
         teleStartPosition = telemetry.addData("D-pad left/right, select start position", getStartPosition());
         teleParkLocation = telemetry.addData("D-pad up to cycle park location", getParklocation());
-        teleAlliance = telemetry.addData("X = Blue, B = Red", getAlliance());
         teleDeliverDuck = telemetry.addData("D-pad down to cycle deliver duck", getDeliverDuck());
-        teleDeliverFreight = telemetry.addData("Left Bumper to cycle deliver freight", getDeliverFreight());
+        teleDeliverFreight = telemetry.addData("Y to cycle deliver freight", getDeliverFreight());
+        teleDelayStartSeconds = telemetry.addData("Delay Start", DelayStartSeconds());
         telemetry.addData("Finished", "Press game pad Start");
 //        telemetry.update();
     }
@@ -130,7 +138,7 @@ public class AutonomousConfiguration {
 
         teleStartPosition.setValue(startPosition);
 
-        if (rightBumper.getRise()) {
+        if (dPadUp.getRise()) {
             parklocation = parklocation.getNext();
         }
 
@@ -142,11 +150,19 @@ public class AutonomousConfiguration {
 
         teleDeliverDuck.setValue(deliverDuck);
 
-        if (leftBumper.getRise()) {
+        if (yButton.getRise()) {
             deliverFreight = deliverFreight.getNext();
         }
 
         teleDeliverFreight.setValue(deliverFreight);
+
+        // Keep range within 0-15 seconds. Wrap at either end.
+        if (leftBumper.getRise()) delayStartSeconds = delayStartSeconds - 1;
+        if (delayStartSeconds < 0) delayStartSeconds = 15;
+        if (rightBumper.getRise()) delayStartSeconds = delayStartSeconds + 1;
+        if (delayStartSeconds > 15) delayStartSeconds = 0;
+
+        teleDelayStartSeconds.setValue(delayStartSeconds);
 
         if (startButton.getFall()) {
             return true;

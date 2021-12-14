@@ -6,9 +6,10 @@ This class is designed to provide a way for teams to configure autonomous opmode
 
 - Change your navigation path based on your alliance color.
 - Select the starting location of you robot.
-- Select whether your robot will reposition the foundation.
-- Select where to park under the sky bridge. 
-- Decide to only deliver, or deliver and place stones on the foundation.
+- Select whether your robot will deliver the duck.
+- Select whether your robot will deliver freight to the shipping hub.
+- Select the parking location at the end of autonomous.
+- Define any delay before starting autonomous.
 
 This configuration class can be modified to meet the requirements of your team and robot.
 
@@ -23,4 +24,5 @@ With the 5 configuration options in this sample class you would need at least 48
 ## Code
 
 - AutonomousConfiguration.java - This is the configuration class. Add this to your team code folder and change it to meet your requirements.
-- rhsPushbotAutoDriveByEncoder_Linear.java - This is a basic opmode that uses the configuration class.
+- RHSAutonomousMenu.java - This is a basic opmode that uses the configuration class.
+__Note:__ *There is a small bonus in this opMode, a state machine example!*
