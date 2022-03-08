@@ -3,7 +3,7 @@
 ## Shared Information
 
 This repository contains code and other technical information to share with all FTC teams.
-It is intended to be a place to store and share code functions, classes, modules, and documentation.
+It is intended to be a place to store and share code, classes, modules, and documentation. This is **not** an Android FTC app project.
 
 Read the code and any instructions before you cut and paste it into your project. Most of the items included here are meant to help speed up your development by minimizing the "re-invent the wheel" syndrome and at the same time help you to understand various aspects of software development.
 
