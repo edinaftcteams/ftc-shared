@@ -19,7 +19,7 @@ This is a requirement for autonomous in most games. A gyro determines your headi
 * Arm Movement
 You can make arm movements more accurately accomplish their tasks using PID controllers to manage speed and power as they move to different positions.
 
-[[PID Controller]
+[[PID Controller]]
 
 Here are some links for more reading pleasure:
 
