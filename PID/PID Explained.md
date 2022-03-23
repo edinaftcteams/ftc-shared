@@ -1,4 +1,4 @@
-# Proportional Integral Derivative
+# PID Controller
 
 ## PID State
 
