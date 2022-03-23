@@ -24,5 +24,3 @@ Here are some links for more reading pleasure:
 * [Beginners PID](http://brettbeauregard.com/blog/2011/04/improving-the-beginners-pid-introduction/) - This one is for Arduino, but the concepts translate to any language.
 
 * [Game Manual 0](https://gm0.org/en/stable/docs/software/control-loops.html) - More PID explanations and application to FTC.
-
-![[PID Controller]]
