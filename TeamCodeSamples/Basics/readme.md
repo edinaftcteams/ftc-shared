@@ -19,4 +19,6 @@ The following op modes are located in the FTC sdk in this folder:
 
 3. BasicOmniOpMode_Linear - You must write the loop in your code.
 
-Given the interest in mecanum wheels and holonomic drive trains op mode *EdinaFTCOmniTest.java* in ths folder is a great place to begin your understanding and testing of holonomic drives.
+### EdinaFTCOmniTest.java
+
+Given the interest in mecanum wheels and holonomic drive trains, *EdinaFTCOmniTest.java* in ths folder, is a great place to begin your understanding and testing of holonomic drives. It should be a permanent part of your test toolkit for verifying your holonomic drive train setup.
