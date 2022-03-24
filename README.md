@@ -11,7 +11,7 @@ The [TeamCodeSamples](TeamCodeSamples) folder contains classes and op
 modes that illustrate strategies and designs from past and current
 seasons.
 
-The [wiki](../../wiki) contains articles and documentation explaining
+The [Wiki](../../wiki) contains articles and documentation explaining
 various topics and concepts that may be helpful to your team.
 
 Read the code and any instructions before you cut and paste it into your
