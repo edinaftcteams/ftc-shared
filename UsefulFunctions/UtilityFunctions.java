@@ -17,8 +17,8 @@ public class UtilityFunctions {
      * factor = A factor to control how much the value is smoothed (0 to 1)
      *              Closer to 1 smooths less, closer to 0 smooths more.
      */
-    public  static int smoothValue(int currentAverage, int newValue, double factor) {
-        return (int)(((1 - factor) * currentAverage) + (factor * newValue));
+    public static int smoothValue(int currentAverage, int newValue, double factor) {
+        return (int) (((1 - factor) * currentAverage) + (factor * newValue));
     }
 
     /**
@@ -30,9 +30,9 @@ public class UtilityFunctions {
     }
 
     /**
-    * Scale the joystick value to smooth it for motor settings.
+     * Scale the joystick value to smooth it for motor settings.
      * This algorithm gives a bit more sensitivity than the ScaleMotorCube() method.
-    * */
+     */
     public static double ScaleMotorTan(double joyStickPosition) {
         return (double) ((joyStickPosition / 1.07) * (.62 * (joyStickPosition * joyStickPosition)) + .45);
     }
@@ -77,19 +77,39 @@ public class UtilityFunctions {
 
         return lScale;
     }
-	
-	// Function to allow pausing an opmode while running.
-	// Example: 
-	// class someOpMode extends LinearOpMode{
+
+    // Function to allow pausing an opmode while running.
+    // Example:
+    // class someOpMode extends LinearOpMode{
     // 	ElapsedTime gameTimer = new ElapsedTime();
     // 	@Override
     // 	public void RunOpMode(){
     //     //pause program for 5 seconds
     //     pauseOpMode(this,gameTimer,5000);
     // 	}
-	// }
-	public static void pauseOpMode(LinearOpmode op, ElapsedTime et, double waitTime) {
-		double startTime = et.milliseconds();
-		while (op.opModeIsActive() && et.milliseconds() < startTime + waitTime){}
-	}
+    // }
+    public static void pauseOpMode(LinearOpmode op, ElapsedTime et, double waitTime) {
+        double startTime = et.milliseconds();
+        while (op.opModeIsActive() && et.milliseconds() < startTime + waitTime) {
+        }
+    }
+
+    /*
+     Low pass filter function to smooth out noisy sensor values.
+     Written with the color sensor in mind, but could be applicable to the gyro as well.
+    */
+    protected float LowPass(float colorAverage, float colorSample) {
+        // (0 - .99) Lower value results in stronger smoothing.
+        final float FILTER_COEFFICIENT = .2F;
+        // Used to filter out values that are way out of range. Tune for expected range.
+        final float THRESHOLD = 9F;
+
+        // Optional code to remove outliers.
+        if (Math.abs(colorSample - colorAverage) > THRESHOLD) {
+            colorSample = colorAverage;
+        }
+
+        colorAverage = ((1.0F - FILTER_COEFFICIENT) * (FILTER_COEFFICIENT + colorSample));
+        return colorAverage;
+    }
 }

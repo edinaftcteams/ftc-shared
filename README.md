@@ -26,10 +26,11 @@ development.
 > libraries. Be aware that you may need to install some of these if they
 > are not already in your project.
 
-## Instructions
+## Using the Code
 
-- Read the code and any documentation.
-- Decide if it might be useful in your project.
-- Copy it to your project. Copy and paste is probably the easiest for most code.
-- Make any changes required to incorporate it into your code.
-- Create some test code to verify it does what you expect.
+1. Read the code and any documentation.
+2. Decide if it might be useful in your project.
+3. Copy it to your project. Copy and paste **only** if you understand
+   the code.
+4. Make any changes required to incorporate it into your code.
+5. Create some test code to verify it does what you expect.

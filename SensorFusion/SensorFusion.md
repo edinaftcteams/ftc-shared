@@ -1,9 +1,13 @@
 # Sensor Fusion
 
+Sensor fusion is combining sensor data or data derived from disparate
+sources such that the resulting information has less uncertainty than
+would be possible when these sources were used individually.
+
 ## Simple Sensor Fusion
 
-Combining two sensor outputs that should theoretically give you the same
-information is called "sensor fusion".
+A FTC robot using the imu and motor encoders for odometry can improve
+performance through sensor fusion.
 
 The easiest way to go about this is with a tool known as a complimentary
 filter. The complimentary filter uses a "blend" value, between 0 and 1,
