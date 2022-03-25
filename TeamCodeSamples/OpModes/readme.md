@@ -19,13 +19,13 @@ Some examples:
 
 <details><summary>Autonomous Configuration</summary>
 
-# Autonomous Configuration
+## Autonomous Configuration
 
 This class is designed to provide a way for teams to configure
 autonomous op modes to perform tasks differently based on information
 that is learned just before starting a match in competition.
 
-## Some examples:
+### Some examples:
 
 - Change your navigation path based on your alliance color.
 - Select the starting location of you robot.
@@ -52,7 +52,7 @@ define your options.
 2. When you make a change in your code can you be sure not to make a
    mistake when adding the change to all of the autonomous opmodes?
 
-## Code
+### Code
 
 - AutonomousConfiguration.java - This is the configuration class. Add
   this to your team code folder and change it to meet your requirements.

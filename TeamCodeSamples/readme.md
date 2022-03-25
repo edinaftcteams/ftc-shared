@@ -1,11 +1,18 @@
 # Team Code
 
-The files in this folder would appear in the teamcode folder in your season game project.  They have been grouped into categories intended to identify their purpose.
+These code files would be located in the teamcode folder in your season
+game project.
 
 ## Basics
 
-This folder contains op modes or classes intended for newer coders or coders looking for basic examples of how the FTC system works. Most of these are from the *external.samples* folder in the FTC sdk project.
+These op modes and classes are intended for newer coders, or coders
+looking for basic examples of how the FTC system works. Most of these
+are from the
+[external.samples](https://FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
+folder in the FTC sdk project.
 
-## Op Modes
+## More Op Modes
 
-The files in this folder are complete op modes or classes used to support the OpModes. These explore more advanced coding concepts.
+These are complete op modes and classes used to support the op modes.
+They illustrate various coding concepts that will become familiar to
+most teams as a season progresses.
