@@ -78,16 +78,17 @@ public class UtilityFunctions {
         return lScale;
     }
 
-    // Function to allow pausing an opmode while running.
-    // Example:
-    // class someOpMode extends LinearOpMode{
-    // 	ElapsedTime gameTimer = new ElapsedTime();
-    // 	@Override
-    // 	public void RunOpMode(){
-    //     //pause program for 5 seconds
-    //     pauseOpMode(this,gameTimer,5000);
-    // 	}
-    // }
+    /* Function to allow pausing an opmode while running.
+    Example:
+    class someOpMode extends LinearOpMode{
+        ElapsedTime gameTimer = new ElapsedTime();
+     	@Override
+     	public void RunOpMode(){
+             //pause program for 5 seconds
+             pauseOpMode(this,gameTimer,5000);
+     	}
+    }
+    */
     public static void pauseOpMode(LinearOpmode op, ElapsedTime et, double waitTime) {
         double startTime = et.milliseconds();
         while (op.opModeIsActive() && et.milliseconds() < startTime + waitTime) {
@@ -97,6 +98,29 @@ public class UtilityFunctions {
     /*
      Low pass filter function to smooth out noisy sensor values.
      Written with the color sensor in mind, but could be applicable to the gyro as well.
+     Example:
+        // This function uses a low pass filter to remove spikes from the sensor.
+        protected boolean isRedInFront(ColorSensor colorSensor) {
+            float redAverage = 0F;
+            float blueAverage = 0F;
+
+            for (int x = 0; x < 1000; x++) {
+                redAverage = LowPass(redAverage, colorSensor.Red());
+                blueAverage = LowPass(blueAverage, colorSensor.Blue());
+                sleep(1);
+                idle();
+
+                telemetry.addData("average red", redAverage);
+                telemetry.addData("average blue", blueAverage);
+                telemetry.update();
+            }
+
+            if (redAverage > blueAverage) {
+                return true;
+            } else {
+                return false;
+            }
+        }
     */
     protected float LowPass(float colorAverage, float colorSample) {
         // (0 - .99) Lower value results in stronger smoothing.
