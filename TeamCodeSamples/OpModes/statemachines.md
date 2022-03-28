@@ -1,14 +1,14 @@
 # State Machine
 
 State machine, finite state machine, finite automation all end up at
-*state machine* in WikiPedia. Take a look for a formal description of
-state machine.
-
-And of couurse
+*state machine* in
+[WikiPedia](https://en.wikipedia.org/wiki/Finite-state_machine). Take a
+look for a formal description of state machine. And of couurse
 [gmZero](https://gm0.org/en/latest/docs/software/finite-state-machines.html)
 has a section on state machines.
 
-In FTC state machines can help organize and enhance your op modes.
+In FTC robot code, a state machines can help to organize and make it
+easier to enhance and update your op modes.
 
 ## Code
 
