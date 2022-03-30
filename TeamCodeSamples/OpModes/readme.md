@@ -64,7 +64,7 @@ define your options.
 
 </details>
 
-<details><summary>State Machines</summary>
+<details><summary>State Machine</summary>
 
 ## State Machine
 
@@ -106,5 +106,4 @@ stateDiagram-v2
   if_state2 --> Stop
   More_Freight --> Stop
   Stop --> [*]
-    
-</details>
+     
