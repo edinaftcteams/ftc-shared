@@ -20,13 +20,20 @@ state machine as well as some other useful coding strategies.
 
 Here is the state diagram that goes with the op mode.
 
+### Autonomous
 ```mermaid
 stateDiagram-v2
- 
-    [*] --> waitForStart
-    waitForStart --> drivingToStorage: Start Pressed
-    waitForStart --> waitForStart: Waiting
-    drivingToStorage --> drivingToStorage: Not in Storage
-    drivingToStorage --> inStorage: In Storage
-    inStorage --> Stop
+    [*] --> Initial
+    state if_state <<choice>>
+    Initial --> if_state
+    if_state --> Park_In_Warehouse
+    if_state --> Park_In_Storage
+    Park_In_Warehouse --> Deliver_Duck
+    Park_In_Storage --> Deliver_Duck
+    Deliver_Duck --> Deliver_Freight
+    state if_state2 <<choice>>
+    Deliver_Freight --> if_state2
+    if_state2 --> More_Freight
+    if_state2 --> Stop
+    More_Freight --> Stop
     Stop --> [*]
