@@ -18,9 +18,10 @@ easier to enhance and update your op modes.
 - RHSAutoStateMachineGyro.java - This is an autonomous op mode that uses a
 state machine as well as some other useful coding strategies.
 
-Here is the state diagram that goes with the op mode.
-
 ### Autonomous
+
+This state diagram goes with the op mode.
+
 ```mermaid
 stateDiagram-v2
     [*] --> Initial

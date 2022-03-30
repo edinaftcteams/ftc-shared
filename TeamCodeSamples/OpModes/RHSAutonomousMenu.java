@@ -189,6 +189,9 @@ public class RHSAutonomousMenu extends OpMode {
                 break;
             case STATE_PARK_IN_WAREHOUSE:
                 parkInWarehouse();
+                newState(State.STATE_MORE_FREIGHT);
+                break;
+            case STATE_MORE_FREIGHT:
                 newState(State.STATE_STOP);
                 break;
             case STATE_STOP:
@@ -664,10 +667,7 @@ public class RHSAutonomousMenu extends OpMode {
         STATE_PARK_IN_WAREHOUSE,
         STATE_DELIVER_DUCK,
         STATE_DELIVER_FREIGHT,
-        STATE_DRIVE_FORWARD,
-        STATE_TURN_90,
-        STATE_DRIVE_TO_WALL,
-        STATE_BACKUP,
+        STATE_MORE_FREIGHT,
         STATE_STOP
     }
 }
