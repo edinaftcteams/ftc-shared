@@ -25,7 +25,7 @@ This class is designed to provide a way for teams to configure
 autonomous op modes to perform tasks differently based on information
 that is learned just before starting a match in competition.
 
-### Some examples:
+### Some examples
 
 - Change your navigation path based on your alliance color.
 - Select the starting location of you robot.
@@ -57,7 +57,7 @@ define your options.
 - AutonomousConfiguration.java - This is the configuration class. Add
   this to your team code folder and change it to meet your requirements.
 - RHSAutonomousMenu.java - This is a sample op mode that uses
-  AutonomousConfiguration. __Note:__ *There is a small bonus in this op
+  AutonomousConfiguration. ***Note:*** *There is a small bonus in this op
   mode, a state machine example!* This op mode has been tested
   successfully in the virtual robot available on
   [RoboNet](https://sites.google.com/view/edina-fte-club-site/code).
@@ -68,8 +68,8 @@ define your options.
 
 ## State Machine
 
-State machine, finite state machine, finite automation all end up at
-*state machine* in
+*State machine*, *finite state machine*, *finite automation* all end up
+at *state machine* in
 [WikiPedia](https://en.wikipedia.org/wiki/Finite-state_machine). Take a
 look for a formal description of state machine. And of couurse
 [gmZero](https://gm0.org/en/latest/docs/software/finite-state-machines.html)
@@ -92,19 +92,19 @@ This state diagram goes with the op mode.
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Initial
-    state if_state <<choice>>
-    Initial --> if_state
-    if_state --> Park_In_Warehouse
-    if_state --> Park_In_Storage
-    Park_In_Warehouse --> Deliver_Duck
-    Park_In_Storage --> Deliver_Duck
-    Deliver_Duck --> Deliver_Freight
-    state if_state2 <<choice>>
-    Deliver_Freight --> if_state2
-    if_state2 --> More_Freight
-    if_state2 --> Stop
-    More_Freight --> Stop
-    Stop --> [*]
+  [*] --> Initial
+  state if_state <<choice>>
+  Initial --> if_state
+  if_state --> Park_In_Warehouse
+  if_state --> Park_In_Storage
+  Park_In_Warehouse --> Deliver_Duck
+  Park_In_Storage --> Deliver_Duck
+  Deliver_Duck --> Deliver_Freight
+  state if_state2 <<choice>>
+  Deliver_Freight --> if_state2
+  if_state2 --> More_Freight
+  if_state2 --> Stop
+  More_Freight --> Stop
+  Stop --> [*]
     
 </details>
