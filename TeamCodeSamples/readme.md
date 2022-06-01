@@ -11,7 +11,7 @@ are from the
 [external.samples](https://FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
 folder in the FTC sdk project.
 
-## More Op Modes
+## Op Modes
 
 These are complete op modes and classes used to support the op modes.
 They illustrate various coding concepts that will become familiar to
