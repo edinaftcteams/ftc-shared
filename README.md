@@ -17,7 +17,7 @@ various topics and concepts that may be helpful to your team.
 Read the code and any instructions before you cut and paste it into your
 project. Most of the items included here are meant to help speed up your
 development by minimizing the "re-invent the wheel" syndrome and at the
-same time help you to understand various aspects of software
+same time help you understand various aspects of software
 development.
 
 > **Note:** The classes under the [TeamCodeSamples](TeamCodeSamples)
