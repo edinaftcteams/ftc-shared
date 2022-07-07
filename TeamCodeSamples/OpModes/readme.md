@@ -17,6 +17,8 @@ Some examples:
 | Arm              | There is usually a requirement to lift or reach, which is some kind of arm.                                     | motors, gears, servos, limit switch, touch sensor    |
 | Grabber          | Picking up on or more game pieces, and sometime launching them is a fairly common theme of games in the past.   | servos, motors, touch sensor, color sensor           |
 
+## test machine
+
 <details><summary>Autonomous Configuration</summary>
 
 ## Autonomous Configuration
@@ -71,7 +73,7 @@ define your options.
 *State machine*, *finite state machine*, *finite automation* all end up
 at *state machine* in
 [WikiPedia](https://en.wikipedia.org/wiki/Finite-state_machine). Take a
-look for a formal description of state machine. And of couurse
+look for a formal description of state machine. And of course
 [gmZero](https://gm0.org/en/latest/docs/software/finite-state-machines.html)
 has a section on state machines.
 
