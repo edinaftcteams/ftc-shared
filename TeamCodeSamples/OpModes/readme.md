@@ -29,8 +29,7 @@ that is learned just before starting a match in competition.
 
 - Change your navigation path based on your alliance color.
 - Select the starting location of you robot.
-- Select whether your robot will deliver the duck.
-- Select whether your robot will deliver freight to the shipping hub.
+- Select which tasks your robot will perform in the autonomous session.
 - Select the parking location at the end of autonomous.
 - Define any delay before starting autonomous.
 
@@ -40,9 +39,8 @@ game.
 
 The "quick-and-dirty" way to manage these options is to create a bunch
 of different autonomous op modes using "creative" names to identify
-their capabilities. With the 5 configuration options in this sample
-class you would need at least 48 different op modes depending on how you
-define your options.
+their capabilities. With the 6 configuration options in this sample
+class you would need at least **64** different op modes to cover all possible options.
 
 **2 big problems with that strategy**:
 
@@ -56,11 +54,10 @@ define your options.
 
 - AutonomousConfiguration.java - This is the configuration class. Add
   this to your team code folder and change it to meet your requirements.
-- RHSAutonomousMenu.java - This is a sample op mode that uses
-  AutonomousConfiguration. ***Note:*** *There is a small bonus in this op
-  mode, a state machine example!* This op mode has been tested
-  successfully in the virtual robot available on
-  [RoboNet](https://sites.google.com/view/edina-fte-club-site/code).
+- AutonomousOptions.java - This class holds all of your options for the current game. It would change for new games each year.
+- ReadWriteAutoOptions.java - This class reads and writes the AutonomousOptions object to a file on the control hub. It can then be used by other op modes, including teleop.
+- RHSConfigMenu.java - This is a sample op mode that uses
+  AutonomousConfiguration.
 
 </details>
 
