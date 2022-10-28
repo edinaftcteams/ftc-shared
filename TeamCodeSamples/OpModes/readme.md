@@ -53,7 +53,7 @@ class you would need at least **64** different op modes to cover all possible op
 ### Code
 
 - AutonomousConfiguration.java - This is the configuration class. Add
-  this to your team code folder and change it to meet your requirements.
+  this to your team code folder and change it to meet your requirements. **Note:** This class uses a gamepad extension from [this repository](https://github.com/HF-Robotics/TntFtcCore). The classes used are in [this folder](https://github.com/HF-Robotics/TntFtcCore/tree/master/corelib/src/main/java/com/ftc9929/corelib/control). This code handles the issue caused by looping when you are detecting a single key press. You could also use your own code ot another library like FtcLib.
 - AutonomousOptions.java - This class holds all of your options for the current game. It would change for new games each year.
 - ReadWriteAutoOptions.java - This class reads and writes the AutonomousOptions object to a file on the control hub. It can then be used by other op modes, including teleop.
 - RHSConfigMenu.java - This is a sample op mode that uses
