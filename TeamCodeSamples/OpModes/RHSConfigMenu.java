@@ -47,7 +47,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "Options Menu", group = "Autonomous")
+@Autonomous(name = "Options Menu", group = "Autonomous", preselectTeleOp = "Color")
 //@Disabled
 public class RHSConfigMenu extends OpMode {
     AutonomousConfiguration autonomousConfiguration = new AutonomousConfiguration();
@@ -93,6 +93,15 @@ public class RHSConfigMenu extends OpMode {
     public void loop() {
         // Show the elapsed game time.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
+        telemetry.addData("Alliance",autonomousConfiguration.getAlliance());
+        telemetry.addData("Start Position",autonomousConfiguration.getStartPosition());
+        telemetry.addData("Park Location",autonomousConfiguration.getParkLocation());
+        telemetry.addData("Park on Signal Zone",autonomousConfiguration.getParkOnSignalZone());
+        telemetry.addData("Place Cone in Terminal",autonomousConfiguration.getPlaceConeInTerminal());
+        telemetry.addData("Place Cones on Junction",autonomousConfiguration.getPlaceConesOnJunctions());
+        telemetry.addData("Delay Start",autonomousConfiguration.getDelayStartSeconds());
+        telemetry.addData("Ready to Start",autonomousConfiguration.getReadyToStart());
+        telemetry.update();
     }
 
     /*

@@ -2,13 +2,15 @@ package org.firstinspires.ftc.teamcode;
 
 import android.content.Context;
 
+import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 /**
  * Created by Ron on 11/16/2016.
- * Modified: 10/12/2022
+ * Modified: 10/31/2022
  * <p>
  * This class provides configuration for an autonomous opMode.
  * Most games benefit from autonomous opModes that can implement
@@ -31,8 +33,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AutonomousConfiguration {
     private AutonomousOptions autonomousOptions;
+    private GamepadEx gamepadEx;
     private Context context;
-    private ReadWriteAutoOptions readWriteAutoOptions;
     private boolean readyToStart;
     private boolean savedToFile;
     private Telemetry telemetry;
@@ -46,44 +48,13 @@ public class AutonomousConfiguration {
     private Telemetry.Item teleReadyToStart;
     private Telemetry.Item teleSavedToFile;
 
-    private DebouncedButton aButton;
-    private DebouncedButton bButton;
-    private DebouncedButton dPadLeft;
-    private DebouncedButton dPadRight;
-    private DebouncedButton dPadDown;
-    private DebouncedButton dPadUp;
-    private DebouncedButton leftBumper;
-    private DebouncedButton rightBumper;
-    private DebouncedButton startButton;
-    private DebouncedButton backButton;
-    private DebouncedButton xButton;
-    private DebouncedButton yButton;
-    private DebouncedButton leftStickButton;
-    private DebouncedButton rightStickButton;
-
-
     /*
      * Pass in the gamepad and telemetry from your opMode.
      */
     public void init(Gamepad gamepad, Telemetry telemetry1, Context context) {
         this.context = context;
-        readWriteAutoOptions = new ReadWriteAutoOptions(context);
-        NinjaGamePad gamePad1 = new NinjaGamePad(gamepad);
-        aButton = gamePad1.getAButton().debounced();
-        bButton = gamePad1.getBButton().debounced();
-        dPadLeft = gamePad1.getDpadLeft().debounced();
-        dPadRight = gamePad1.getDpadRight().debounced();
-        dPadDown = gamePad1.getDpadDown().debounced();
-        dPadUp = gamePad1.getDpadUp().debounced();
-        rightBumper = gamePad1.getRightBumper().debounced();
-        leftBumper = gamePad1.getLeftBumper().debounced();
-        xButton = gamePad1.getXButton().debounced();
-        yButton = gamePad1.getYButton().debounced();
-        leftStickButton = gamePad1.getLeftStickButton().debounced();
-        rightStickButton = gamePad1.getRightStickButton().debounced();
-        startButton = gamePad1.getStartButton().debounced();
-        backButton = gamePad1.getBackButton().debounced();
-        //backButton=gamePad1.
+        ReadWriteAutoOptions readWriteAutoOptions = new ReadWriteAutoOptions(context);
+        gamepadEx = new GamepadEx(gamepad);
         this.telemetry = telemetry1;
         // See if we saved the options yet. If not, save the defaults.
         autonomousOptions = new AutonomousOptions();
@@ -105,8 +76,8 @@ public class AutonomousConfiguration {
         return autonomousOptions.getStartPosition();
     }
 
-    public AutonomousOptions.ParkLocation getParklocation() {
-        return autonomousOptions.getParklocation();
+    public AutonomousOptions.ParkLocation getParkLocation() {
+        return autonomousOptions.getParkLocation();
     }
 
     public AutonomousOptions.ParkOnSignalZone getParkOnSignalZone() {
@@ -132,7 +103,7 @@ public class AutonomousConfiguration {
     private void ShowHelp() {
         teleAlliance = telemetry.addData("X = Blue, B = Red", autonomousOptions.getAllianceColor());
         teleStartPosition = telemetry.addData("D-pad left/right, select start position", autonomousOptions.getStartPosition());
-        teleParkLocation = telemetry.addData("D-pad up to cycle park location", autonomousOptions.getParklocation());
+        teleParkLocation = telemetry.addData("D-pad up to cycle park location", autonomousOptions.getParkLocation());
         teleParkOnSignalZone = telemetry.addData("D-pad down to cycle park on signal zone", autonomousOptions.getParkOnSignalZone());
         telePlaceConesOnJunctions = telemetry.addData("Y to cycle cones on junctions", autonomousOptions.getPlaceConesOnJunctions());
         telePlaceConeInTerminal = telemetry.addData("A to cycle place cone in terminal", autonomousOptions.getPlaceConeInTerminal());
@@ -140,42 +111,44 @@ public class AutonomousConfiguration {
         teleReadyToStart = telemetry.addData("Ready to start: ", getReadyToStart());
         teleSavedToFile = telemetry.addData("Saved to file:", savedToFile);
         telemetry.addLine("Back button resets all options.");
+        telemetry.update();
     }
 
     // Call this in the init_loop from your opMode. It will returns true if you press the
     // game pad Start.
     public void init_loop() {
+        gamepadEx.readButtons();
         //Set default options (ignore what was saved to the file.)
-        if (backButton.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.BACK)) {
             resetOptions();
         }
         //Alliance Color
-        if (xButton.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.X)) {
             autonomousOptions.setAllianceColor(AutonomousOptions.AllianceColor.Blue);
             telemetry.speak("blue");
         }
 
-        if (bButton.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.B)) {
             autonomousOptions.setAllianceColor(AutonomousOptions.AllianceColor.Red);
             telemetry.speak("red");
         }
         teleAlliance.setValue(autonomousOptions.getAllianceColor());
 
         //Start Position
-        if (dPadRight.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.DPAD_RIGHT)) {
             autonomousOptions.setStartPosition(AutonomousOptions.StartPosition.Right);
             telemetry.speak("start right");
         }
 
-        if (dPadLeft.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.DPAD_LEFT)) {
             autonomousOptions.setStartPosition(AutonomousOptions.StartPosition.Left);
             telemetry.speak("start left");
         }
         teleStartPosition.setValue(autonomousOptions.getStartPosition());
 
         //Park Location
-        if (dPadUp.getRise()) {
-            AutonomousOptions.ParkLocation parkLocation = autonomousOptions.getParklocation().getNext();
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.DPAD_UP)) {
+            AutonomousOptions.ParkLocation parkLocation = autonomousOptions.getParkLocation().getNext();
             switch (parkLocation) {
                 case None:
                     telemetry.speak("park, no.");
@@ -192,7 +165,7 @@ public class AutonomousConfiguration {
         }
 
         //Park on Signal Zone
-        if (dPadDown.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.DPAD_DOWN)) {
             AutonomousOptions.ParkOnSignalZone parkSignalZone = autonomousOptions.getParkOnSignalZone().getNext();
             switch (parkSignalZone) {
                 case Yes:
@@ -207,7 +180,7 @@ public class AutonomousConfiguration {
         }
 
         //Place cones on junction.
-        if (yButton.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.Y)) {
             AutonomousOptions.PlaceConesOnJunctions placeOnJunction = autonomousOptions.getPlaceConesOnJunctions().getNext();
             switch (placeOnJunction) {
                 case Yes:
@@ -222,7 +195,7 @@ public class AutonomousConfiguration {
         }
 
         //Place cone in terminal
-        if (aButton.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.A)) {
             AutonomousOptions.PlaceConeInTerminal placeInTerminal = autonomousOptions.getPlaceConeInTerminal().getNext();
             switch (placeInTerminal) {
                 case Yes:
@@ -236,12 +209,12 @@ public class AutonomousConfiguration {
         }
 
         // Keep range within 0-15 seconds. Wrap at either end.
-        if (leftBumper.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.LEFT_BUMPER)) {
             autonomousOptions.setDelayStartSeconds(autonomousOptions.getDelayStartSeconds() - 1);
             autonomousOptions.setDelayStartSeconds((autonomousOptions.getDelayStartSeconds() < 0) ? 15 : autonomousOptions.getDelayStartSeconds());
             telemetry.speak("delay start " + autonomousOptions.getDelayStartSeconds() + " seconds");
         }
-        if (rightBumper.getRise()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.RIGHT_BUMPER)) {
             autonomousOptions.setDelayStartSeconds(autonomousOptions.getDelayStartSeconds() + 1);
             autonomousOptions.setDelayStartSeconds((autonomousOptions.getDelayStartSeconds() > 15) ? 0 : autonomousOptions.getDelayStartSeconds());
             telemetry.speak("delay start " + autonomousOptions.getDelayStartSeconds() + " seconds");
@@ -253,11 +226,12 @@ public class AutonomousConfiguration {
         teleReadyToStart.setValue(readyToStart);
 
         //Save the options to a file if ready to start and start button is pressed.
-        if (startButton.getRise() && getReadyToStart()) {
+        if (gamepadEx.wasJustReleased(GamepadKeys.Button.START) && getReadyToStart()) {
             SaveOptions();
             savedToFile = true;
             teleSavedToFile.setValue(true);
         }
+        telemetry.update();
     }
 
     // Default selections if driver does not select anything.
