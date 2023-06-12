@@ -4,8 +4,9 @@
 
 This repository contains code and other technical information to share
 with all FTC teams. It is intended to be a place to store and share
-code, classes, modules, and documentation. This is **not** an Android
-FTC app project.
+code, classes, modules, and documentation. Most of the code here is in Java but there is lots of information that is applicable to whatever  programming environment your team may be using.
+
+This repository is **not** an Android FTC app project os it cannot be directly compiled into usable op modes.
 
 The [TeamCodeSamples](TeamCodeSamples) folder contains classes and op
 modes that illustrate strategies and designs from past and current
@@ -34,3 +35,7 @@ development.
    the code.
 4. Make any changes required to incorporate it into your code.
 5. Create some test code to verify it does what you expect.
+
+## Updates
+
+5/15/2023 - Changes for the *2023-2024 Center Stage* season.
