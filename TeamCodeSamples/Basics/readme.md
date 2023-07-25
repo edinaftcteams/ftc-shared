@@ -3,7 +3,7 @@
 ***Come here first to see how to code your robot.***
 
 The
-[external.samples](https://FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
+[external.samples](https://github.com/FIRST-Tech-Challenge/FtcRobotController/tree/master/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
 folder in the FTC sdk is the best place to see FTC coding examples.
 
 There are lots of examples in the samples for motors, sensors, cameras
@@ -19,7 +19,7 @@ but iterative can give you more control. Either style will work. The
 choice is made by you based on your robot and its coding requirements.
 
 The following op modes are located in the FTC sdk in this folder:
-[external.samples](https://FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
+[external.samples](https://github.com/FIRST-Tech-Challenge/FtcRobotController/tree/master/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples)
 
 1. BasicOpMode_Linear - This is a simple 2 motor linear teleop op mode.
    Blocks creates linear op modes by default. Look at the next op mode
