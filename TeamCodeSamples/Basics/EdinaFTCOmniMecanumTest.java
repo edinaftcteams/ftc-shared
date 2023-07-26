@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Holonomic) robot.
  * This code will work with either a Mecanum-Drive or an X-Drive train.
  * Both of these drives are illustrated at
- * https://gm0.org/en/latest/docs/robot-design/drivetrains/holonomic.html
+ * <a href="https://gm0.org/en/latest/docs/robot-design/drivetrains/holonomic.html">...</a>
  * Note that a Mecanum drive must display an X roller-pattern when viewed from
  * above.
  * <p>
@@ -61,9 +61,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * stick forward, then you must flip
  * the direction of all 4 motors (see code below).
  * <p>
- * This opmode also uses ftclib to manage the gamepad. It handles s lot of things 
- * that you would normally have to program yourself, like button bounce and 
- * toggling. There are various libraries available that perform similar functions.
+ * This opmode also uses ftclib to manage the gamepad. It handles s lot of things
+ * that you would normally have to program yourself, like button bounce and
+ * toggling. The installation instructions are here:
+ * <a href="https://docs.ftclib.org/ftclib/v/v2.0.0/installation">...</a>
+ * There are other libraries available that perform similar functions.
  */
 
 @TeleOp(name = "Omni/Mecacum Test", group = "test")
@@ -81,9 +83,8 @@ public class EdinaFTCOmniMecanumTest extends LinearOpMode {
         ToggleButtonReader startToggle = new ToggleButtonReader(gamePadEx, GamepadKeys.Button.START);
         ToggleButtonReader directionToggle = new ToggleButtonReader(gamePadEx, GamepadKeys.Button.LEFT_BUMPER);
         // Initialize the hardware variables. Note that the strings used here must
-        // correspond
-        // to the names assigned during the robot configuration step on the DS or RC
-        // devices.
+        // correspond to the names assigned during the robot configuration step on
+        // the DS or RC devices.
         DcMotorEx leftFrontDrive = hardwareMap.get(DcMotorEx.class, "leftfrontdrive");
         DcMotorEx leftBackDrive = hardwareMap.get(DcMotorEx.class, "leftbackdrive");
         DcMotorEx rightFrontDrive = hardwareMap.get(DcMotorEx.class, "rightfrontdrive");
@@ -112,7 +113,7 @@ public class EdinaFTCOmniMecanumTest extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.addData("", "Use the Start button to toggle test mode.");
         telemetry.addData("", "Use left bumper to toggle direction.");
-        telemetry.addData("", "Use X, A, Y or B to run each motor forward.");
+        telemetry.addData("", "Use X, A, Y or B to run each motor.");
         telemetry.update();
 
         waitForStart();
@@ -126,7 +127,6 @@ public class EdinaFTCOmniMecanumTest extends LinearOpMode {
         while (opModeIsActive()) {
             startToggle.readValue();
             directionToggle.readValue();
-            double max;
             // Start toggles test mode to use x, a, y and b to test each motor.
             testMode = startToggle.getState();
             // Switch motor direction.
@@ -135,34 +135,25 @@ public class EdinaFTCOmniMecanumTest extends LinearOpMode {
             // POV Mode uses left joystick to go forward & strafe, and right joystick to
             // rotate.
             double axial = -gamepad1.left_stick_y; // Note: pushing stick forward gives negative value
-            double lateral = gamepad1.left_stick_x;
+            double lateral = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing;
             double yaw = gamepad1.right_stick_x;
 
             // Combine the joystick requests for each axis-motion to determine each wheel's
             // power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
-            double leftFrontPower = axial + lateral + yaw;
-            double rightFrontPower = axial - lateral - yaw;
-            double leftBackPower = axial - lateral + yaw;
-            double rightBackPower = axial + lateral - yaw;
-
-            // Normalize the values so no wheel power exceeds 100%
-            // This ensures that the robot maintains the desired motion.
-            max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
-            max = Math.max(max, Math.abs(leftBackPower));
-            max = Math.max(max, Math.abs(rightBackPower));
-
-            if (max > 1.0) {
-                leftFrontPower /= max;
-                rightFrontPower /= max;
-                leftBackPower /= max;
-                rightBackPower /= max;
-            }
+            // Denominator is the largest motor power (absolute value) or 1
+            // This ensures all the powers maintain the same ratio, but only when
+            // at least one is out of the range [-1, 1]
+            double denominator = Math.max(Math.abs(axial) + Math.abs(lateral) + Math.abs(yaw), 1);
+            double leftFrontPower = (axial + lateral + yaw) / denominator;
+            double rightFrontPower = (axial - lateral - yaw) / denominator;
+            double leftBackPower = (axial - lateral + yaw) / denominator;
+            double rightBackPower = (axial + lateral - yaw) / denominator;
 
             // This is test code:
             //
             // Each button should make the corresponding motor run FORWARD.
-            // 1) First get all the motors to take to correct positions on the robot
+            // 1) First get all the motors to their correct positions on the robot
             // by adjusting your Robot Configuration if necessary.
             // 2) Then make sure they run in the correct direction by modifying the
             // the setDirection() calls above.
