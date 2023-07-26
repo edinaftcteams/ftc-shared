@@ -6,7 +6,7 @@ would be possible when these sources were used individually.
 
 ## Simple Sensor Fusion
 
-A FTC robot using the imu and motor encoders for odometry can improve
+A FTC robot using the IMU and motor encoders for odometry can improve
 performance through sensor fusion.
 
 The easiest way to go about this is with a tool known as a complimentary
