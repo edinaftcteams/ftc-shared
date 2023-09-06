@@ -125,4 +125,5 @@ stateDiagram-v2
   if_state2 --> Stop
   More_Freight --> Stop
   Stop --> [*]
+  ```
   
