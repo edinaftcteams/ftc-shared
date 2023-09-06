@@ -4,6 +4,29 @@ The op modes in this folder are examples of autonomous and teleop
 strategies. They are intended to show you various code structures and
 design solutions from past and current games.
 
+An understanding of op modes is a requirement for creating a successful
+robot control app. The first thing to understand is the difference
+between iterative and linear op modes. Linear is easier to understand
+but iterative can give you more control. Either style will work. The
+choice is made by you based on your robot and its coding requirements.
+
+The following op modes in the FTC sdk, in this folder,
+[external.samples](https://github.com/FIRST-Tech-Challenge/FtcRobotController/tree/master/FtcRobotController/src/main/java/org/firstinspires/ftc/robotcontroller/external/samples) illustrate the 2 kinds of op modes.
+
+1. BasicOpMode_Linear - This is a simple 2 motor linear teleop op mode.
+   Blocks creates linear op modes by default. Look at the next op mode
+   to see an example of iterative op modes.
+2. BasicOpMode_Iterative - The sdk platform loops automatically for you.
+   This is an example of an *event driven* programming model.
+
+### Holonomic Drive Train
+
+Given the interest in mecanum wheels and holonomic drive trains,
+[EdinaFTCOmniTest.java](EdinaFTCOmniTest.java) in ths folder, is a great
+place to begin your understanding and testing of holonomic drives. This op mode
+should be a permanent part of your test toolkit for verifying your
+holonomic drive train setup.
+
 Even though the game changes every season there are some basic functions
 that your robot will almost always need to perform.
 
@@ -15,7 +38,7 @@ Some examples:
 | Object Detection | A common game theme has been the requirement to find a game piece somewhere on the field.                       | camera, color sensor, distance sensor, IR sensor     |
 | Drive Train      | The game may emphasize speed, agility, climbing or some other attribute. But you will still need a drive train. | motors, encoders, gears                              |
 | Arm              | There is usually a requirement to lift or reach, which is some kind of arm.                                     | motors, gears, servos, limit switch, touch sensor    |
-| Grabber          | Picking up on or more game pieces, and sometime launching them is a fairly common theme of games in the past.   | servos, motors, touch sensor, color sensor           |
+| Grabber          | Picking up one or more game pieces, and sometime launching them is a fairly common theme of games in the past.   | servos, motors, touch sensor, color sensor           |
 
 <details><summary>Autonomous Configuration</summary>
 
@@ -77,8 +100,7 @@ easier to enhance and update your op modes.
 
 ### Code
 
-***Note: The code here is due for an update. Check back soon. (March 28,
-2022)***
+***Note: The code here is due for an update. (September, 6, 2023)***
 
 - RHSAutoStateMachineGyro.java - This is an autonomous op mode that uses a
 state machine as well as some other useful coding strategies.
