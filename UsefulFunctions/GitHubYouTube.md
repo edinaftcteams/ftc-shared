@@ -9,8 +9,11 @@ The YouTube video ID is the part of the URL after the v=. For example, in the UR
 ## Step 2: Embed the Video
 
 To embed the video, use the following markdown:
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
+\[!\[IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
 YouTube already has a thumbnail image for the video, so you can use that. Just replace YOUTUBE_VIDEO_ID_HERE with the video ID you got in step 1 in the first URL (for the image). Then again in the second URL (for the link to the video).
 
 Here is a sample video created by Piece of Cake.
+
 [![Sample Video](https://img.youtube.com/vi/2jback8nbpw&t=2s/1.jpg)](https://www.youtube.com/watch?v=2jback8nbpw&t=2s)
