@@ -15,7 +15,7 @@ Some FTC applications for PID controllers:
 - Motor Control - This is already in most newer motors. Some teams think
   they need to do it themselves, which may have been true for older
   motors, but the consensus seems to be that for general motor
-  applications the latest Rev Robotics and HiTech motors are pretty
+  applications the latest Rev Robotics and Tetrix motors are pretty
   good. The DcMotorEx class in the FTC sdk does allow you to tune the
   PID algorithm. You should at least understand what PID is used for so
   you can decide if tuning it would help your robot.
