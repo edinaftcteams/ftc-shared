@@ -39,3 +39,6 @@ development.
 ## Updates
 
 5/15/2023 - Changes for the *2023-2024 Center Stage* season.
+
+11/28/2023 - Added a page in the wiki that explains adding a youtube link
+ to markdown. This could be used on your repository readme file.
