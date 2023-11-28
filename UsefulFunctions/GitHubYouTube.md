@@ -16,4 +16,4 @@ YouTube already has a thumbnail image for the video, so you can use that. Just r
 
 Here is a sample video created by Piece of Cake.
 
-[![Sample Video](https://img.youtube.com/vi/2jback8nbpw&t=2s/1.jpg)](https://www.youtube.com/watch?v=2jback8nbpw&t=2s)
+[![The Best Thing About FTC is ...](https://img.youtube.com/vi/2jback8nbpw&t=2s/1.jpg)](https://www.youtube.com/watch?v=2jback8nbpw&t=2s)
