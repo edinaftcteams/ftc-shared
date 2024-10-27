@@ -21,11 +21,15 @@ The following op modes in the FTC sdk, in this folder,
 
 ### Holonomic Drive Train
 
-Given the interest in mecanum wheels and holonomic drive trains,
+Since mecanum wheels and holonomic drive trains have become common,
 [EdinaFTCOmniTest.java](EdinaFTCOmniTest.java) in ths folder, is a great
 place to begin your understanding and testing of holonomic drives. This op mode
 should be a permanent part of your test toolkit for verifying your
 holonomic drive train setup.
+
+### Test opModes
+
+In order to verify and test hardware you should have a collection of test opModes. This can be very useful when you run into those inevitable "it used to work" situations. Feel free to copy these and modify them to your team's specific needs.
 
 Even though the game changes every season there are some basic functions
 that your robot will almost always need to perform.
