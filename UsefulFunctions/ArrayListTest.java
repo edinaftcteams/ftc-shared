@@ -1,3 +1,8 @@
+/*
+ This is a standalone Java program that does not rely on Android Studio or Android.
+ It is an example of how to test Java code that does not use any FTC hardware or Android
+ functions.
+ */
 import java.util.ArrayList;
 
 class ArrayListTest {
