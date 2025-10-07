@@ -1,94 +1,134 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.hardware.SimpleServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.PwmControl;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-@TeleOp(name = "Test Servo", group = "t")
+@TeleOp(name = "Test Servo", group = "test")
 //@Disabled
 public class TestServo extends OpMode {
-    static final double INCREMENT = 0.1;     // amount to slew servo each button press.
-    private double minScale = 0;
-    private double maxScale = 1;
-    private SimpleServo servo;
+    public enum SERVO_TYPE {
+        STANDARD,
+        CONTINUOUS
+    }
+
+    // amount to slew servo each button press.
+    static final double INCREMENT = 0.1;
+    SERVO_TYPE servoType = SERVO_TYPE.STANDARD;
+    private PwmControl.PwmRange pwmRange;
+    private Servo servo;
+    private CRServo crServo;
     private double position = 0;
-    private GamepadEx gamepad;
 
     @Override
     public void init() {
         // Make the name match your config file and robot.
         // servo = hardwareMap.get(ServoImplEx.class, "servo1");
-        servo = new SimpleServo(hardwareMap, "servo1", 0, 90);
-        gamepad = new GamepadEx(gamepad1);
-        showTelemetry();
+        servo = hardwareMap.get(ServoImplEx.class, "servo1");
+        showConfigTelemetry();
+        telemetry.update();
+    }
+
+    @Override
+    public void init_loop() {
+        if (gamepad1.aWasReleased()) {
+            if (servoType == SERVO_TYPE.STANDARD) {
+                servoType = SERVO_TYPE.CONTINUOUS;
+            } else {
+                servoType = SERVO_TYPE.STANDARD;
+            }
+        }
+
+        telemetry.addData("Servo Type", servoType);
         telemetry.update();
     }
 
     @Override
     public void start() {
-        servo.setPosition(position);
+        telemetry.clearAll();
+        telemetry.update();
+        if (servoType == SERVO_TYPE.STANDARD) {
+            ((ServoImplEx) servo).setPwmRange(new PwmControl.PwmRange(500, 2500));
+            pwmRange = ((ServoImplEx) servo).getPwmRange();
+            position = 0;
+            servo = hardwareMap.get(ServoImplEx.class, "servo1");
+            servo.setPosition(0);
+            showServoTelemetry();
+        } else {
+            crServo = hardwareMap.get(CRServo.class, "servo1");
+            crServo.setPower(0);
+            showCRServoTelemetry();
+        }
     }
 
     @Override
     public void loop() {
-        gamepad.readButtons();
-        if (gamepad.wasJustReleased(GamepadKeys.Button.LEFT_BUMPER)) {
-            position = -1;
-        }
+        switch (servoType) {
+            case STANDARD:
+                if (gamepad1.leftBumperWasReleased()) {
+                    position = 0;
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.RIGHT_BUMPER)) {
-            position = 1;
-        }
+                if (gamepad1.rightBumperWasReleased()) {
+                    position = 1;
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.Y)) {
-            position = .5;
-        }
+                if (gamepad1.yWasReleased()) {
+                    position = .5;
+                }
 
-        if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-            minScale = 0;
-            maxScale = 1;
-            servo.setRange(minScale, maxScale);
-        }
+                if (gamepad1.dpadUpWasReleased()) {
+                    position += INCREMENT;
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.DPAD_UP) && position < .8) {
-            position += INCREMENT;
-        }
+                if (gamepad1.dpadDownWasReleased()) {
+                    position -= INCREMENT;
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.DPAD_DOWN) && position > -.8) {
-            position -= INCREMENT;
-        }
+                if (gamepad1.backWasReleased()) {
+                    ((PwmControl) servo).setPwmDisable();
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.X)) {
-            minScale = position;
-            servo.setRange(minScale, maxScale);
-        }
+                servo.setPosition(position);
+                showServoTelemetry();
+                break;
+            case CONTINUOUS:
+                if (gamepad1.dpadLeftWasReleased()) {
+                    crServo.setPower(0);
+                }
 
-        if (gamepad.wasJustReleased(GamepadKeys.Button.B)) {
-            maxScale = position;
-            servo.setRange(minScale, maxScale);
-        }
-        if (gamepad.wasJustReleased((GamepadKeys.Button.BACK))) {
-            ((PwmControl) servo).setPwmDisable();
-        }
+                if (gamepad1.dpadRightWasReleased()) {
+                    crServo.setPower(1);
+                }
 
-        servo.setPosition(position);
-        showTelemetry();
+                showCRServoTelemetry();
+                break;
+            default:
+        }
     }
 
-    private void showTelemetry() {
+    private void showConfigTelemetry() {
+        telemetry.addLine("a = Toggle servo type");
+    }
+
+    private void showServoTelemetry() {
         telemetry.addLine("Disable Servo = back");
         telemetry.addLine("Left bumper = 0");
         telemetry.addLine("Right bumper = 1");
         telemetry.addLine("Y = .5 (middle)");
-        telemetry.addLine("X = Set current position as Min. scale");
-        telemetry.addLine("B = Set current position as Max. scale");
-        telemetry.addLine("A = Reset scale to 0-1");
         telemetry.addLine("Dpad up: Increase position");
         telemetry.addLine("Dpad down: Decrease position");
-        telemetry.addData("Scale", "%5.2f - %5.2f", minScale, maxScale);
+        telemetry.addData("PWM Lower Range", pwmRange.usPulseLower);
+        telemetry.addData("PWM Upper Range", pwmRange.usPulseUpper);
         telemetry.addData("Position", position);
+    }
+
+    private void showCRServoTelemetry() {
+        telemetry.addLine("Dpad left: Stop");
+        telemetry.addLine("Dpad right: Full power");
+        telemetry.addData("Power", crServo.getPower());
     }
 }
