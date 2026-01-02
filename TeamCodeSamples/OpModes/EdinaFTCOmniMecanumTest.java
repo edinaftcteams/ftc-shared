@@ -29,9 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.arcrobotics.ftclib.gamepad.GamepadEx;
-import com.arcrobotics.ftclib.gamepad.GamepadKeys;
-import com.arcrobotics.ftclib.gamepad.ToggleButtonReader;
+import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
+import com.seattlesolvers.solverslib.gamepad.ToggleButtonReader;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -61,11 +61,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * stick forward, then you must flip
  * the direction of all 4 motors (see code below).
  * <p>
- * This opmode also uses ftclib to manage the gamepad. It handles s lot of things
- * that you would normally have to program yourself, like button bounce and
- * toggling. The installation instructions are here:
- * <a href="https://docs.ftclib.org/ftclib/v/v2.0.0/installation">...</a>
- * There are other libraries available that perform similar functions.
+ * The code also uses a library inherited from FtcLib. It provides gamepad functions
+ * to enable things like toggle buttons.
  */
 
 @TeleOp(name = "Omni/Mecacum Test", group = "test")
